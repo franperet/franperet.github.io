@@ -1,8 +1,6 @@
 (() => {
   const data = PORTFOLIO;
-  const root = document.documentElement;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   const svg = (body, filled = false) =>
     `<svg viewBox="0 0 24 24" ${filled
@@ -52,6 +50,51 @@
     ? project.videoPoster || project.cover
     : `https://i.ytimg.com/vi/${project.video}/hqdefault.jpg`;
 
+  // Las ondas del banner de itch.io: líneas finas que se repiten cada 1440 unidades,
+  // así una capa del doble de ancho puede desplazarse en bucle sin cortes.
+  const WAVE_PERIOD = 1440;
+
+  function wavePath(width, y0, amp, phase) {
+    const points = [];
+    for (let x = 0; x <= width; x += 30) {
+      const t = (x / WAVE_PERIOD) * Math.PI * 2;
+      points.push([x, y0 + amp * Math.sin(t + phase) + amp * 0.35 * Math.sin(2 * t + phase * 1.7)]);
+    }
+    let d = `M0 ${points[0][1].toFixed(1)}`;
+    for (let i = 1; i < points.length - 1; i++) {
+      const [x, y] = points[i];
+      const [nx, ny] = points[i + 1];
+      d += `Q${x} ${y.toFixed(1)} ${(x + nx) / 2} ${((y + ny) / 2).toFixed(1)}`;
+    }
+    const [lx, ly] = points.at(-1);
+    return `${d}L${lx} ${ly.toFixed(1)}`;
+  }
+
+  function waveSvg({ lines, top, gap, amp, phase = 0, step = 0.1, height, alpha, loop = false }) {
+    const width = loop ? WAVE_PERIOD * 2 : WAVE_PERIOD;
+    let paths = '';
+    for (let i = 0; i < lines; i++) {
+      const t = lines > 1 ? i / (lines - 1) : 0;
+      const a = amp * (0.8 + 0.2 * Math.sin(i * 0.7));
+      paths += `<path d="${wavePath(width, top + i * gap, a, phase + i * step)}" stroke-opacity="${alpha(t).toFixed(2)}"/>`;
+    }
+    return `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" fill="none" stroke="currentColor">${paths}</svg>`;
+  }
+
+  function renderWaves(container, layers) {
+    container.innerHTML = layers.map(layer =>
+      `<div class="waves__layer" style="--speed: ${layer.speed}s">${waveSvg({ ...layer, loop: true })}</div>`).join('');
+  }
+
+  function staticWaves(color) {
+    return h('span', {
+      class: 'ph__waves',
+      style: color ? `color: ${color}` : null,
+      'aria-hidden': 'true',
+      html: waveSvg({ lines: 16, top: 30, gap: 34, amp: 40, phase: 1.2, step: 0.14, height: 600, alpha: t => 0.75 - 0.55 * t })
+    });
+  }
+
   function socialLinks() {
     const { links, email } = data.profile;
     return [
@@ -77,49 +120,60 @@
   function photoOrInitials(className) {
     const p = data.profile;
     return h('div', { class: className },
-      p.photo ? h('img', { src: p.photo, alt: `Foto de ${p.name}` }) : h('span', {}, p.initials));
+      p.photo ? h('img', { src: p.photo, alt: `Foto de ${p.name}` }) : [staticWaves(), h('span', {}, p.initials)]);
   }
 
   function renderProfile() {
     const p = data.profile;
     byId('brand-mark').textContent = p.initials;
     byId('brand-name').textContent = p.name;
-    byId('hero-name').textContent = p.name;
+    const name = byId('hero-name');
+    name.closest('h1').setAttribute('aria-label', `Hola, soy ${p.name}`);
+    name.setAttribute('aria-hidden', 'true');
+    name.previousElementSibling.setAttribute('aria-hidden', 'true');
+    name.replaceChildren(h('span', { class: 'hero__words' }, p.name.split(' ').flatMap((word, w, words) => [
+      h('span', { class: 'hero__word' }, [...word].map((letter, i) =>
+        h('span', { class: 'hero__letter', style: `--l: ${words.slice(0, w).join('').length + i}` }, letter))),
+      w < words.length - 1 ? ' ' : null
+    ])));
     byId('hero-lead').textContent = p.lead;
     byId('hero-role-wrap').setAttribute('aria-label', p.roles.join(', '));
     byId('hero-socials').replaceChildren(...socialLinks());
     byId('footer-copy').textContent = `© ${new Date().getFullYear()} ${p.name}`;
 
+    // Sin PDF cargado en data.js el botón no se muestra; aparece solo al completar profile.cv.
     const cv = byId('cv-btn');
     if (p.cv) {
       cv.href = p.cv;
       cv.setAttribute('download', '');
     } else {
-      cv.setAttribute('aria-disabled', 'true');
-      cv.title = 'Falta agregar el PDF del CV';
+      cv.hidden = true;
     }
   }
 
   function renderPlayerCard() {
     const p = data.profile;
     byId('player-card').replaceChildren(
-      h('div', { class: 'player-card__top' },
-        h('span', { class: 'eyebrow' }, 'Ficha de jugador'),
+      h('div', { class: 'player-card__bar' },
+        h('span', { class: 'player-card__label' }, 'Ficha de jugador'),
+        p.status ? h('p', { class: 'status' }, h('span', { class: 'status__dot', 'aria-hidden': 'true' }), p.status) : null,
         h('span', { class: 'player-card__badge' }, 'P1')),
-      h('div', { class: 'player-card__head' },
-        photoOrInitials('avatar'),
-        h('div', {},
-          h('p', { class: 'player-card__name' }, p.name),
-          p.location ? h('p', { class: 'player-card__place' }, icon('pin'), p.location) : null)),
-      h('dl', { class: 'stats' },
-        data.card.map(([label, value]) => h('div', { class: 'stats__row' }, h('dt', {}, label), h('dd', {}, value)))),
-      p.status ? h('p', { class: 'status' }, h('span', { class: 'status__dot', 'aria-hidden': 'true' }), p.status) : null
+      h('div', { class: 'player-card__body' },
+        h('div', { class: 'player-card__head' },
+          photoOrInitials('avatar'),
+          h('div', {},
+            h('p', { class: 'player-card__name' }, p.name),
+            p.location ? h('p', { class: 'player-card__place' }, icon('pin'), p.location) : null)),
+        h('dl', { class: 'stats' },
+          data.card.map(([label, value]) => h('div', { class: 'stats__row' }, h('dt', {}, label), h('dd', {}, value)))))
     );
   }
 
   function cover(project, src) {
     if (src) return h('img', { src, alt: `Captura de ${project.title}`, loading: 'lazy' });
-    return h('div', { class: 'ph', style: `--c: ${project.color || '#b8f53d'}` }, h('span', {}, project.title));
+    return h('div', { class: 'ph', style: `--c: ${project.color || '#7fb4f2'}` },
+      staticWaves('var(--c)'),
+      h('span', {}, project.title));
   }
 
   function matchesFilter(project) {
@@ -159,14 +213,6 @@
       card.hidden = !show;
       if (show) replay(card, 'pop');
     });
-    centerLastCard();
-  }
-
-  function centerLastCard() {
-    const cards = [...byId('cards').querySelectorAll('.card')];
-    const visible = cards.filter(card => !card.hidden);
-    cards.forEach(card =>
-      card.classList.toggle('card--center', visible.length % 2 === 1 && card === visible.at(-1)));
   }
 
   function replay(node, className) {
@@ -175,41 +221,22 @@
     node.classList.add(className);
   }
 
-  function addTilt(node, max) {
-    node.addEventListener('pointermove', e => {
-      const r = node.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top) / r.height;
-      node.style.setProperty('--ry', `${(x - 0.5) * max * 2}deg`);
-      node.style.setProperty('--rx', `${(0.5 - y) * max * 2}deg`);
-      node.style.setProperty('--gx', `${x * 100}%`);
-      node.style.setProperty('--gy', `${y * 100}%`);
-    });
-    node.addEventListener('pointerleave', () => {
-      node.style.setProperty('--rx', '0deg');
-      node.style.setProperty('--ry', '0deg');
-    });
-  }
-
   function renderCards(containerId, collection) {
     const wip = collection === 'inProgress';
-    byId(containerId).replaceChildren(...data[collection].map((project, index) => {
-      const card = h('article', { class: 'card reveal', 'data-index': index, style: `--i: ${index % (wip ? 4 : 2)}` },
+    byId(containerId).replaceChildren(...data[collection].map((project, index) =>
+      h('article', { class: 'card reveal', 'data-index': index, style: `--i: ${index % (wip ? 4 : 3)}` },
         h('div', { class: 'cover' },
           cover(project, project.cover || project.images[0]),
           wip ? h('span', { class: 'cover__badge' },
             h('span', { class: 'status__dot status__dot--wip', 'aria-hidden': 'true' }), project.status) : null),
         h('div', { class: 'card__body' },
-          project.context ? h('p', { class: 'meta' }, project.context) : null,
           h('h3', { class: 'card__title' },
             h('button', { class: 'card__open', type: 'button', onclick: () => openModal(collection, index) }, project.title)),
+          project.context ? h('p', { class: 'meta' }, project.context) : null,
           h('p', { class: 'card__tagline' }, project.tagline),
-          h('ul', { class: 'tags' }, project.tags.map(t => h('li', {}, t))),
-          h('span', { class: 'card__more', 'aria-hidden': 'true' }, 'Ver proyecto', icon('arrow')))
-      );
-      if (finePointer && !reduceMotion) addTilt(card, 3);
-      return card;
-    }));
+          h('ul', { class: 'genre' }, project.tags.map(t => h('li', {}, t))),
+          h('span', { class: 'card__more', 'aria-hidden': 'true' }, 'Ver proyecto', icon('arrow'))))
+    ));
   }
 
   function renderInProgress() {
@@ -255,7 +282,7 @@
     function moveIndicator() {
       const active = tabs.find(t => t.getAttribute('aria-selected') === 'true');
       indicator.style.width = `${active.offsetWidth}px`;
-      indicator.style.transform = `translateX(${active.offsetLeft}px)`;
+      indicator.style.transform = `translate(${active.offsetLeft}px, ${active.offsetTop + active.offsetHeight - 2}px)`;
     }
 
     function select(i, focus = false) {
@@ -287,8 +314,8 @@
   function renderSkills() {
     createTabs('skills-tabs', data.skills.map(group => ({
       label: group.category,
-      content: h('div', { class: 'skills' }, group.items.map(skill =>
-        h('div', { class: 'skill' },
+      content: h('div', { class: 'skills' }, group.items.map((skill, n) =>
+        h('div', { class: 'skill', style: `--n: ${n}` },
           h('span', { class: 'skill__name' }, skill.name),
           skill.detail ? h('span', { class: 'skill__detail' }, skill.detail) : null)))
     })));
@@ -297,9 +324,11 @@
   function timeline(items) {
     return h('ol', { class: 'timeline' }, items.map(item =>
       h('li', { class: 'timeline__item' },
-        h('span', { class: 'timeline__period' }, item.period),
         h('h3', {}, item.title),
-        item.place ? h('p', { class: 'timeline__place' }, item.place) : null,
+        h('p', { class: 'timeline__place' },
+          item.place,
+          item.place && item.period ? ' · ' : null,
+          item.period ? h('span', { class: 'timeline__period' }, item.period) : null),
         item.detail ? h('p', { class: 'timeline__detail' }, item.detail) : null)));
   }
 
@@ -437,8 +466,8 @@
       gallery(project),
       h('div', { class: 'modal__body' },
         h('div', { class: 'modal__main' },
-          project.context ? h('p', { class: 'eyebrow' }, project.context) : null,
           h('h3', { class: 'modal__title', id: 'modal-title' }, project.title),
+          project.context ? h('p', { class: 'modal__context' }, project.context) : null,
           h('p', { class: 'modal__tagline' }, project.tagline),
           h('p', { class: 'modal__desc' }, project.description),
           project.highlights?.length ? h('h4', {}, highlightsTitle) : null,
@@ -566,49 +595,20 @@
     setTimeout(tick, 600);
   }
 
-  function setupHeroGlow() {
-    if (!finePointer || reduceMotion) return;
-    const hero = document.querySelector('.hero');
-    let frame = 0;
-    hero.addEventListener('pointermove', e => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const r = hero.getBoundingClientRect();
-        hero.style.setProperty('--mx', `${e.clientX - r.left}px`);
-        hero.style.setProperty('--my', `${e.clientY - r.top}px`);
-      });
-    });
-    addTilt(byId('player-card'), 6);
-  }
+  function setupWaves() {
+    renderWaves(byId('hero-waves'), [
+      { lines: 13, top: 14, gap: 38, amp: 30, phase: 2.2, step: 0.08, height: 620, speed: 150, alpha: t => 0.22 - 0.12 * t },
+      { lines: 24, top: -12, gap: 22, amp: 34, phase: 0, step: 0.11, height: 620, speed: 90, alpha: t => 0.62 - 0.5 * t }
+    ]);
+    renderWaves(byId('contact-waves'), [
+      { lines: 10, top: 250, gap: 34, amp: 26, phase: 4, step: 0.09, height: 600, speed: 140, alpha: t => 0.1 + 0.12 * t },
+      { lines: 16, top: 270, gap: 22, amp: 30, phase: 1.4, step: 0.12, height: 600, speed: 95, alpha: t => 0.12 + 0.4 * t }
+    ]);
 
-  function setupTheme() {
-    const button = byId('theme-toggle');
-    const meta = document.querySelector('meta[name="theme-color"]');
-    const paintMeta = () => { meta.content = root.dataset.theme === 'light' ? '#f7f8fa' : '#0b0d12'; };
-    paintMeta();
-
-    button.addEventListener('click', () => {
-      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
-      const apply = () => {
-        root.dataset.theme = next;
-        paintMeta();
-        try { localStorage.setItem('theme', next); } catch {}
-      };
-      if (!document.startViewTransition || reduceMotion) {
-        apply();
-        return;
-      }
-      const r = button.getBoundingClientRect();
-      const x = r.left + r.width / 2;
-      const y = r.top + r.height / 2;
-      const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-      document.startViewTransition(apply).ready.then(() => {
-        root.animate(
-          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-          { duration: 550, easing: 'cubic-bezier(.4, 0, .2, 1)', pseudoElement: '::view-transition-new(root)' }
-        );
-      });
-    });
+    // Las capas solo se mueven mientras se ven: fuera de pantalla no gastan nada.
+    const observer = new IntersectionObserver(entries => entries.forEach(entry =>
+      entry.target.classList.toggle('is-offscreen', !entry.isIntersecting)));
+    document.querySelectorAll('.hero, .contact-section').forEach(section => observer.observe(section));
   }
 
   let toastTimer = 0;
@@ -623,7 +623,7 @@
   function celebrate() {
     toast('Código secreto: +30 vidas');
     if (reduceMotion) return;
-    const colors = ['var(--accent)', '#ff5a5f', '#5ab0ff', '#ffd23f', '#c77dff'];
+    const colors = ['var(--accent)', 'var(--gold)', 'var(--text)', 'var(--green)', '#ff8f7a'];
     const burst = h('div', { class: 'burst', 'aria-hidden': 'true' });
     for (let i = 0; i < 56; i++) {
       const angle = Math.random() * Math.PI * 2;
@@ -654,17 +654,15 @@
   renderPlayerCard();
   renderFilters();
   renderCards('cards', 'projects');
-  centerLastCard();
   renderInProgress();
   renderSkills();
   renderPath();
   renderAbout();
   renderContact();
+  setupWaves();
   setupModal();
   setupReveal();
   setupNav();
   setupTyping();
-  setupHeroGlow();
-  setupTheme();
   setupKonami();
 })();
