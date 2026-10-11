@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Francisco Peret · Game Developer</title>
+  <meta name="description" content="Portfolio de Francisco Peret: videojuegos 2D, 3D y multijugador hechos con Unity y Unreal.">
+  <meta name="theme-color" content="#0b0d12">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    document.documentElement.classList.add('js');
+    let theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    try { theme = localStorage.getItem('theme') || theme; } catch (e) {}
+    document.documentElement.dataset.theme = theme;
+  </script>
+</head>
+<body>
+  <a class="skip" href="#proyectos">Saltar al contenido</a>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a class="brand" href="#inicio" aria-label="Volver al inicio">
+        <span class="brand__mark" id="brand-mark"></span>
+        <span class="brand__name" id="brand-name"></span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Secciones">
+        <a href="#proyectos">Proyectos</a>
+        <a href="#habilidades">Habilidades</a>
+        <a href="#trayectoria">Trayectoria</a>
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="header__actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <p class="eyebrow reveal">&gt; hola, soy</p>
+          <h1 class="hero__title reveal" id="hero-name" style="--i: 1"></h1>
+          <p class="hero__role reveal" id="hero-role-wrap" style="--i: 2"><span id="hero-role" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></p>
+          <p class="hero__lead reveal" id="hero-lead" style="--i: 3"></p>
+          <div class="hero__cta reveal" style="--i: 4">
+            <a class="btn btn--primary" href="#proyectos">Ver proyectos</a>
+            <a class="btn btn--ghost" id="cv-btn">
+              <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></span>
+              Descargar CV
+            </a>
+          </div>
+          <ul class="socials reveal" id="hero-socials" style="--i: 5"></ul>
+        </div>
+        <aside class="player-card reveal" id="player-card" style="--i: 3" aria-label="Ficha de presentación"></aside>
+      </div>
+      <a class="scroll-hint" href="#proyectos" aria-label="Bajar a proyectos"></a>
+    </section>
+
+    <section class="section" id="proyectos">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">01 // Proyectos</p>
+          <h2>Proyectos destacados</h2>
+          <p class="section__sub">Hacé clic en cualquiera para ver qué hice, con qué herramientas y dónde jugarlo.</p>
+        </header>
+        <div class="filters reveal" id="filters" role="group" aria-label="Filtrar proyectos"></div>
+        <div class="cards" id="cards"></div>
+        <div class="wip" id="wip-wrap">
+          <header class="wip__head reveal">
+            <h3><span class="status__dot status__dot--wip" aria-hidden="true"></span>En desarrollo</h3>
+            <p>Proyectos en los que estoy trabajando ahora.</p>
+          </header>
+          <div class="cards cards--wip" id="wip"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="habilidades">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">02 // Habilidades</p>
+          <h2>Con qué trabajo</h2>
+        </header>
+        <div class="tabs reveal" id="skills-tabs"></div>
+      </div>
+    </section>
+
+    <section class="section" id="trayectoria">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">03 // Trayectoria</p>
+          <h2 id="path-title">Formación y experiencia</h2>
+        </header>
+        <div class="tabs reveal" id="path-tabs"></div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="sobre-mi">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">04 // Sobre mí</p>
+          <h2>Un poco de mí</h2>
+        </header>
+        <div class="about" id="about"></div>
+      </div>
+    </section>
+
+    <section class="section" id="contacto">
+      <div class="container contact">
+        <p class="eyebrow reveal">05 // Contacto</p>
+        <h2 class="reveal" style="--i: 1">¿Hablamos?</h2>
+        <p class="reveal" style="--i: 2">Si tenés una vacante, un proyecto o querés charlar de juegos, escribime.</p>
+        <div class="reveal" style="--i: 3">
+          <button class="email-btn" id="email-btn" type="button" aria-describedby="email-hint">
+            <span class="email-btn__text" id="email-text"></span>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></span>
+          </button>
+        </div>
+        <p class="contact__hint reveal" id="email-hint" style="--i: 4">Clic para copiar · <a id="mailto-link">o abrí tu correo</a></p>
+        <ul class="socials reveal" id="contact-socials" style="--i: 5"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p id="footer-copy"></p>
+      <p>Hecho con HTML, CSS y JavaScript · <kbd title="Probalo con el teclado">↑↑↓↓←→←→BA</kbd></p>
+    </div>
+  </footer>
+
+  <dialog class="modal" id="modal" aria-labelledby="modal-title">
+    <div class="modal__bar">
+      <button class="modal__close" id="modal-close" type="button" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal__content" id="modal-content"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
