@@ -37,51 +37,55 @@
   </header>
 
   <main>
-    <section class="hero" id="inicio">
-      <div class="waves waves--hero" id="hero-waves" aria-hidden="true"></div>
-
-      <div class="container hero__inner">
-        <div class="hero__title-wrap">
-          <h1 class="hero__title">
-            <span class="hero__hi rise" style="--i: 0">Hola, soy</span>
-            <span class="hero__name" id="hero-name"></span>
-          </h1>
-          <svg class="mate" viewBox="0 0 120 160" fill="none" aria-hidden="true">
-            <path class="mate__steam" d="M43 33c-6-6 6-11 0-19"/>
-            <path class="mate__steam" d="M52 30c-5-6 5-10 0-17"/>
-            <path class="mate__line" style="--d: 0" pathLength="1" d="M31 57C15 72 10 104 23 125c11 18 63 18 74 0 13-21 8-53-8-68"/>
-            <path class="mate__line" style="--d: 1" pathLength="1" d="M30 48a30 6 0 1 0 60 0a30 6 0 1 0-60 0"/>
-            <path class="mate__line" style="--d: 2" pathLength="1" d="M30 48l1 9q29 9 58 0l1-9"/>
-            <path class="mate__line" style="--d: 3" pathLength="1" d="M37 46q5-7 12-4 5-5 11-1 6-4 11 0 6-3 12 4"/>
-            <path class="mate__line" style="--d: 4" pathLength="1" d="M58 47 86 12q3-4.5 9-3"/>
-            <path class="mate__line" style="--d: 5" pathLength="1" d="M18 82q42 14 84 0"/>
-            <path class="mate__dots" d="M17 93q43 14 86 0"/>
-            <path class="mate__line" style="--d: 6" pathLength="1" d="M45 140q1 7 15 7t15-7"/>
-          </svg>
+    <section class="intro" id="inicio">
+      <div class="intro__stage">
+        <div class="intro__sea" aria-hidden="true">
+          <canvas class="sea" id="hero-sea"></canvas>
         </div>
 
-        <p class="hero__role rise" id="hero-role-wrap" style="--i: 2"><span id="hero-role" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></p>
-        <p class="hero__lead rise" id="hero-lead" style="--i: 3"></p>
-        <div class="hero__cta rise" style="--i: 4">
-          <a class="btn btn--primary" href="#proyectos">
-            Ver proyectos
-            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></span>
-          </a>
-          <a class="btn btn--ghost" id="cv-btn">
-            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></span>
-            Descargar CV
-          </a>
-        </div>
-        <ul class="socials rise" id="hero-socials" style="--i: 5"></ul>
+        <div class="container intro__grid">
+          <div class="intro__copy">
+            <h1 class="intro__title" id="hero-title"></h1>
+            <p class="hero__role" id="hero-role-wrap"><span id="hero-role" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></p>
+          </div>
 
-        <aside class="player-card rise" id="player-card" style="--i: 6" aria-label="Ficha de presentación"></aside>
+          <div class="intro__extras">
+            <p class="hero__lead rise" id="hero-lead" style="--i: 0"></p>
+            <div class="hero__cta rise" style="--i: 1">
+              <a class="btn btn--primary" href="#proyectos">
+                Ver proyectos
+                <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></span>
+              </a>
+              <a class="btn btn--ghost" id="cv-btn">
+                <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></span>
+                Descargar CV
+              </a>
+            </div>
+            <ul class="socials rise" id="hero-socials" style="--i: 2"></ul>
+          </div>
+
+          <div class="intro__mate" aria-hidden="true">
+            <div class="mate-float" data-mate="hero"></div>
+          </div>
+        </div>
+
+        <div class="intro__deal">
+          <aside class="player-card reveal" id="player-card" aria-label="Ficha de presentación"></aside>
+        </div>
+        <a class="intro__start" href="#proyectos"><span>Ver proyectos</span></a>
+
+        <a class="intro__cue" href="#proyectos" aria-label="Bajar a proyectos">
+          <span>Bajá</span>
+          <span class="intro__cue-line" aria-hidden="true"></span>
+        </a>
       </div>
     </section>
 
     <section class="section" id="proyectos">
       <div class="container">
         <header class="section__head">
-          <h2 class="ornament reveal">Proyectos destacados</h2>
+          <h2 class="heading reveal"><span class="heading__text">Proyectos destacados</span></h2>
+          <span class="rule" aria-hidden="true"></span>
           <p class="section__sub reveal" style="--i: 1">Hacé clic en cualquiera para ver qué hice, con qué herramientas y dónde jugarlo.</p>
         </header>
         <div class="filters reveal" id="filters" role="group" aria-label="Filtrar proyectos" style="--i: 2"></div>
@@ -99,7 +103,8 @@
     <section class="section section--alt" id="habilidades">
       <div class="container">
         <header class="section__head">
-          <h2 class="ornament reveal">Con qué trabajo</h2>
+          <h2 class="heading reveal"><span class="heading__text">Con qué trabajo</span></h2>
+          <span class="rule" aria-hidden="true"></span>
         </header>
         <div class="tabs reveal" id="skills-tabs" style="--i: 1"></div>
       </div>
@@ -108,7 +113,8 @@
     <section class="section" id="trayectoria">
       <div class="container">
         <header class="section__head">
-          <h2 class="ornament reveal" id="path-title">Formación y experiencia</h2>
+          <h2 class="heading reveal"><span class="heading__text" id="path-title">Formación y experiencia</span></h2>
+          <span class="rule" aria-hidden="true"></span>
         </header>
         <div class="tabs reveal" id="path-tabs" style="--i: 1"></div>
       </div>
@@ -117,7 +123,8 @@
     <section class="section section--alt" id="sobre-mi">
       <div class="container">
         <header class="section__head">
-          <h2 class="ornament reveal">Un poco de mí</h2>
+          <h2 class="heading reveal"><span class="heading__text">Un poco de mí</span></h2>
+          <span class="rule" aria-hidden="true"></span>
         </header>
         <div class="about" id="about"></div>
       </div>
@@ -125,17 +132,21 @@
 
     <section class="section contact-section" id="contacto">
       <div class="waves waves--contact" id="contact-waves" aria-hidden="true"></div>
+      <div class="light" aria-hidden="true"></div>
       <div class="container contact">
-        <h2 class="reveal">¿Hablamos?</h2>
-        <p class="reveal" style="--i: 1">Si tenés una vacante, un proyecto o querés charlar de juegos, escribime.</p>
-        <div class="reveal" style="--i: 2">
-          <button class="email-btn" id="email-btn" type="button" aria-describedby="email-hint">
-            <span class="email-btn__text" id="email-text"></span>
-            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></span>
-          </button>
+        <div class="contact__main">
+          <h2 class="heading contact__title reveal"><span class="heading__text">¿Hablamos?</span></h2>
+          <p class="reveal" style="--i: 1">Si tenés una vacante, un proyecto o querés charlar de juegos, escribime.</p>
+          <div class="reveal" style="--i: 2">
+            <button class="email-btn" id="email-btn" type="button" aria-describedby="email-hint">
+              <span class="email-btn__text" id="email-text"></span>
+              <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></span>
+            </button>
+          </div>
+          <p class="contact__hint reveal" id="email-hint" style="--i: 3">Clic para copiar · <a id="mailto-link">o abrí tu correo</a></p>
+          <ul class="socials reveal" id="contact-socials" style="--i: 4"></ul>
         </div>
-        <p class="contact__hint reveal" id="email-hint" style="--i: 3">Clic para copiar · <a id="mailto-link">o abrí tu correo</a></p>
-        <ul class="socials reveal" id="contact-socials" style="--i: 4"></ul>
+        <div class="contact__mate reveal" aria-hidden="true" data-mate="contact" style="--i: 2"></div>
       </div>
     </section>
   </main>

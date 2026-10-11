@@ -1,6 +1,8 @@
 (() => {
   const data = PORTFOLIO;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const canTilt = finePointer && !reduceMotion;
 
   const svg = (body, filled = false) =>
     `<svg viewBox="0 0 24 24" ${filled
@@ -56,7 +58,7 @@
 
   function wavePath(width, y0, amp, phase) {
     const points = [];
-    for (let x = 0; x <= width; x += 30) {
+    for (let x = 0; x <= width; x += 40) {
       const t = (x / WAVE_PERIOD) * Math.PI * 2;
       points.push([x, y0 + amp * Math.sin(t + phase) + amp * 0.35 * Math.sin(2 * t + phase * 1.7)]);
     }
@@ -95,6 +97,104 @@
     });
   }
 
+  // El mate del banner de itch.io, a línea. Cada trazo se dibuja solo (pathLength = 1).
+  const MATE_LINES = [
+    'M31 57C15 72 10 104 23 125c11 18 63 18 74 0 13-21 8-53-8-68',
+    'M30 48a30 6 0 1 0 60 0a30 6 0 1 0-60 0',
+    'M30 48l1 9q29 9 58 0l1-9',
+    'M37 46q5-7 12-4 5-5 11-1 6-4 11 0 6-3 12 4',
+    'M57 47 85 12q3-4.5 9-3',
+    'M18 82q42 14 84 0',
+    'M45 140q1 7 15 7t15-7'
+  ];
+
+  function mateSvg() {
+    const diamonds = [[36, 104], [48, 109], [60, 111], [72, 109], [84, 104]]
+      .map(([x, y]) => `M${x} ${y - 2.6}l2.6 2.6-2.6 2.6-2.6-2.6z`).join('');
+    return `<svg class="mate" viewBox="0 0 120 160" fill="none" aria-hidden="true">
+      <path class="mate__steam" d="M41 34c-6-6 6-11 0-19"/>
+      <path class="mate__steam" d="M49 31c-5-6 5-10 0-17"/>
+      <path class="mate__body" d="M31 57C15 72 10 104 23 125c11 18 63 18 74 0 13-21 8-53-8-68l1-9a30 6 0 0 0-60 0z"/>
+      ${MATE_LINES.map((d, i) => `<path class="mate__line" style="--d: ${i}" pathLength="1" d="${d}"/>`).join('')}
+      <path class="mate__detail mate__dots" d="M17 93q43 14 86 0"/>
+      <path class="mate__detail" d="M40 53v5.5M50 54.2v6M60 54.6v6.3M70 54.2v6M80 53v5.5"/>
+      <path class="mate__detail mate__gems" d="${diamonds}"/>
+    </svg>`;
+  }
+
+  function renderMates() {
+    document.querySelectorAll('[data-mate]').forEach(node => { node.innerHTML = mateSvg(); });
+  }
+
+  // Inclinación 3D al pasar el mouse: la ficha se hunde del lado del cursor.
+  // El valor persigue al objetivo con suavizado, como un resorte, en vez de saltar.
+  function addTilt(node, { max = 5, depth = 16 } = {}) {
+    const current = { x: 0, y: 0, z: 0 };
+    const target = { x: 0, y: 0, z: 0 };
+    let frame = 0;
+
+    const tick = () => {
+      let moving = false;
+      for (const key of ['x', 'y', 'z']) {
+        current[key] += (target[key] - current[key]) * 0.12;
+        if (Math.abs(target[key] - current[key]) > 0.01) moving = true;
+        else current[key] = target[key];
+      }
+      node.style.transform = current.x || current.y || current.z
+        ? `perspective(1000px) rotateX(${current.x.toFixed(2)}deg) rotateY(${current.y.toFixed(2)}deg) translateZ(${current.z.toFixed(2)}px)`
+        : '';
+      frame = moving ? requestAnimationFrame(tick) : 0;
+    };
+    const start = () => { if (!frame) frame = requestAnimationFrame(tick); };
+
+    node.addEventListener('pointermove', e => {
+      const r = node.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      target.x = (0.5 - py) * max * 2;
+      target.y = (px - 0.5) * max * 2;
+      target.z = -depth;
+      node.style.setProperty('--gx', `${(px * 100).toFixed(1)}%`);
+      node.style.setProperty('--gy', `${(py * 100).toFixed(1)}%`);
+      start();
+    });
+    node.addEventListener('pointerleave', () => {
+      target.x = target.y = target.z = 0;
+      start();
+    });
+  }
+
+  // Luz que sigue al mouse sobre las ondas, con el mismo suavizado.
+  function setupLight(area) {
+    const light = area.querySelector('.light');
+    if (!light || !canTilt) return;
+    const pos = { x: 0, y: 0 };
+    const target = { x: 0, y: 0 };
+    let frame = 0;
+    let primed = false;
+
+    const tick = () => {
+      pos.x += (target.x - pos.x) * 0.1;
+      pos.y += (target.y - pos.y) * 0.1;
+      light.style.transform = `translate3d(${pos.x.toFixed(1)}px, ${pos.y.toFixed(1)}px, 0)`;
+      frame = Math.abs(target.x - pos.x) + Math.abs(target.y - pos.y) > 0.3 ? requestAnimationFrame(tick) : 0;
+    };
+
+    area.addEventListener('pointermove', e => {
+      const r = area.getBoundingClientRect();
+      target.x = e.clientX - r.left;
+      target.y = e.clientY - r.top;
+      if (!primed) {
+        pos.x = target.x;
+        pos.y = target.y;
+        primed = true;
+      }
+      light.classList.add('is-on');
+      if (!frame) frame = requestAnimationFrame(tick);
+    });
+    area.addEventListener('pointerleave', () => light.classList.remove('is-on'));
+  }
+
   function socialLinks() {
     const { links, email } = data.profile;
     return [
@@ -127,15 +227,17 @@
     const p = data.profile;
     byId('brand-mark').textContent = p.initials;
     byId('brand-name').textContent = p.name;
-    const name = byId('hero-name');
-    name.closest('h1').setAttribute('aria-label', `Hola, soy ${p.name}`);
-    name.setAttribute('aria-hidden', 'true');
-    name.previousElementSibling.setAttribute('aria-hidden', 'true');
-    name.replaceChildren(h('span', { class: 'hero__words' }, p.name.split(' ').flatMap((word, w, words) => [
-      h('span', { class: 'hero__word' }, [...word].map((letter, i) =>
-        h('span', { class: 'hero__letter', style: `--l: ${words.slice(0, w).join('').length + i}` }, letter))),
-      w < words.length - 1 ? ' ' : null
-    ])));
+    // Cada renglón del título sube desde una máscara; el h1 conserva el texto completo para lectores de pantalla.
+    const words = p.name.split(' ');
+    const title = byId('hero-title');
+    title.setAttribute('aria-label', `Hola, soy ${p.name}`);
+    title.replaceChildren(
+      h('span', { class: 'line line--hi', 'aria-hidden': 'true', style: '--n: 0' }, h('span', {}, 'Hola, soy')),
+      ...words.map((word, i) => h('span', {
+        class: `line line--name${i > 0 && i === words.length - 1 ? ' line--indent' : ''}`,
+        'aria-hidden': 'true',
+        style: `--n: ${i + 1}`
+      }, h('span', {}, word))));
     byId('hero-lead').textContent = p.lead;
     byId('hero-role-wrap').setAttribute('aria-label', p.roles.join(', '));
     byId('hero-socials').replaceChildren(...socialLinks());
@@ -167,6 +269,7 @@
         h('dl', { class: 'stats' },
           data.card.map(([label, value]) => h('div', { class: 'stats__row' }, h('dt', {}, label), h('dd', {}, value)))))
     );
+    if (canTilt) addTilt(byId('player-card'), { max: 6, depth: 10 });
   }
 
   function cover(project, src) {
@@ -223,8 +326,9 @@
 
   function renderCards(containerId, collection) {
     const wip = collection === 'inProgress';
-    byId(containerId).replaceChildren(...data[collection].map((project, index) =>
-      h('article', { class: 'card reveal', 'data-index': index, style: `--i: ${index % (wip ? 4 : 3)}` },
+    byId(containerId).replaceChildren(...data[collection].map((project, index) => {
+      const card = h('article', { class: 'card reveal', 'data-index': index, style: `--i: ${index % (wip ? 4 : 3)}` },
+        h('span', { class: 'card__glare', 'aria-hidden': 'true' }),
         h('div', { class: 'cover' },
           cover(project, project.cover || project.images[0]),
           wip ? h('span', { class: 'cover__badge' },
@@ -235,8 +339,10 @@
           project.context ? h('p', { class: 'meta' }, project.context) : null,
           h('p', { class: 'card__tagline' }, project.tagline),
           h('ul', { class: 'genre' }, project.tags.map(t => h('li', {}, t))),
-          h('span', { class: 'card__more', 'aria-hidden': 'true' }, 'Ver proyecto', icon('arrow'))))
-    ));
+          h('span', { class: 'card__more', 'aria-hidden': 'true' }, 'Ver proyecto', icon('arrow'))));
+      if (canTilt) addTilt(card, { max: wip ? 7 : 5, depth: 18 });
+      return card;
+    }));
   }
 
   function renderInProgress() {
@@ -572,11 +678,13 @@
     const roles = data.profile.roles;
     if (reduceMotion || roles.length < 2) {
       target.textContent = roles[0];
-      return;
+      return { freeze() {} };
     }
     let r = 0;
     let c = 0;
     let deleting = false;
+    let frozen = false;
+    let timer = 0;
     const tick = () => {
       const word = roles[r];
       c += deleting ? -1 : 1;
@@ -590,16 +698,172 @@
         r = (r + 1) % roles.length;
         delay = 400;
       }
-      setTimeout(tick, delay);
+      timer = setTimeout(tick, delay);
     };
-    setTimeout(tick, 600);
+    timer = setTimeout(tick, 600);
+
+    // Mientras la intro se recorre con el scroll, el rol queda escrito completo (nunca a medias).
+    return {
+      freeze(on) {
+        if (on === frozen) return;
+        frozen = on;
+        clearTimeout(timer);
+        if (on) {
+          target.textContent = roles[r];
+          c = roles[r].length;
+          deleting = true;
+        } else {
+          timer = setTimeout(tick, 1900);
+        }
+      }
+    };
+  }
+
+  // El mar de la portada, dibujado en canvas para que las líneas sigan nítidas en perspectiva.
+  // Es un plano más alto que la pantalla: de frente se ve su mitad de abajo (como en itch.io)
+  // y al inclinarse (tilt 0 → 1) la mitad de arriba se vuelve el horizonte.
+  function createSea(canvas, area) {
+    const ctx = canvas.getContext('2d');
+    const K = (Math.PI * 2) / WAVE_PERIOD;
+    const layers = [
+      { rows: 72, amp: 30, phase: 0, step: 0.1, speed: 0.0144, alpha: t => (t < 0.47 ? 0.26 + 0.3 * (t / 0.47) : 0.56 - 0.44 * ((t - 0.47) / 0.53)) },
+      { rows: 30, amp: 26, phase: 2.2, step: 0.08, speed: -0.009, alpha: () => 0.13 }
+    ];
+    const light = { x: 0, y: 0, tx: 0, ty: 0, on: 0, target: 0 };
+    let w = 0;
+    let h = 0;
+    let dpr = 1;
+    let tilt = 0;
+    let time = 0;
+    let last = 0;
+    let frame = 0;
+    let visible = true;
+
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      w = r.width;
+      h = r.height;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      draw();
+    }
+
+    function draw() {
+      if (!w) return;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      const theta = (tilt * 62 * Math.PI) / 180;
+      const cos = Math.cos(theta);
+      const sin = Math.sin(theta);
+      const depth = 1100;
+      const vx = w / 2;
+      const vy = h * 0.42;
+      const planeH = h * 1.9;
+      // Plano bien ancho: en el horizonte se achica a menos de la mitad y no debe verse su borde
+      const x0 = -w * 0.95;
+      const samples = 170;
+      const dx = (w * 2.9) / samples;
+
+      let glow = null;
+      if (light.on > 0.01) {
+        const halo = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, 440);
+        halo.addColorStop(0, `rgba(127, 180, 242, ${(0.15 * light.on).toFixed(3)})`);
+        halo.addColorStop(1, 'rgba(127, 180, 242, 0)');
+        ctx.fillStyle = halo;
+        ctx.fillRect(0, 0, w, h);
+        glow = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, 300);
+        glow.addColorStop(0, `rgba(200, 225, 252, ${(0.95 * light.on).toFixed(3)})`);
+        glow.addColorStop(0.45, `rgba(127, 180, 242, ${(0.4 * light.on).toFixed(3)})`);
+        glow.addColorStop(1, 'rgba(127, 180, 242, 0)');
+      }
+
+      ctx.lineWidth = 1;
+      for (const layer of layers) {
+        const gap = planeH / layer.rows;
+        for (let i = 0; i < layer.rows; i++) {
+          const v0 = (i + 0.5) * gap;
+          const s0 = depth / (depth + v0 * sin);
+          if (vy + (h - v0 * cos - vy) * s0 < -60) continue;
+          const amp = layer.amp * (0.8 + 0.2 * Math.sin(i * 0.7));
+          const phase = layer.phase + (layer.rows - i) * layer.step;
+          ctx.beginPath();
+          for (let j = 0; j <= samples; j++) {
+            const X = x0 + j * dx;
+            const t = (X + time * layer.speed) * K;
+            const v = v0 + amp * Math.sin(t + phase) + amp * 0.35 * Math.sin(2 * t + phase * 1.7);
+            const s = depth / (depth + v * sin);
+            const sx = vx + (X - vx) * s;
+            const sy = vy + (h - v * cos - vy) * s;
+            if (j === 0) ctx.moveTo(sx, sy);
+            else ctx.lineTo(sx, sy);
+          }
+          const fog = s0 ** 1.3 * (1 + tilt * 0.5);
+          ctx.strokeStyle = `rgba(127, 180, 242, ${(layer.alpha(1 - i / (layer.rows - 1)) * fog).toFixed(3)})`;
+          ctx.stroke();
+          if (glow) {
+            ctx.strokeStyle = glow;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function loop(now) {
+      const dt = Math.min(64, now - (last || now));
+      last = now;
+      time += dt;
+      light.x += (light.tx - light.x) * 0.1;
+      light.y += (light.ty - light.y) * 0.1;
+      light.on += (light.target - light.on) * 0.08;
+      draw();
+      frame = requestAnimationFrame(loop);
+    }
+
+    function sync() {
+      const run = !reduceMotion && visible && !document.hidden;
+      if (run && !frame) {
+        last = 0;
+        frame = requestAnimationFrame(loop);
+      } else if (!run && frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    }
+
+    new ResizeObserver(resize).observe(canvas);
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    }).observe(canvas);
+    document.addEventListener('visibilitychange', sync);
+
+    if (canTilt) {
+      area.addEventListener('pointermove', e => {
+        const r = canvas.getBoundingClientRect();
+        light.tx = e.clientX - r.left;
+        light.ty = e.clientY - r.top;
+        if (light.on < 0.02) {
+          light.x = light.tx;
+          light.y = light.ty;
+        }
+        light.target = 1;
+      });
+      area.addEventListener('pointerleave', () => { light.target = 0; });
+    }
+
+    resize();
+    sync();
+    return {
+      setTilt(value) {
+        tilt = value;
+        if (!frame) draw();
+      }
+    };
   }
 
   function setupWaves() {
-    renderWaves(byId('hero-waves'), [
-      { lines: 13, top: 14, gap: 38, amp: 30, phase: 2.2, step: 0.08, height: 620, speed: 150, alpha: t => 0.22 - 0.12 * t },
-      { lines: 24, top: -12, gap: 22, amp: 34, phase: 0, step: 0.11, height: 620, speed: 90, alpha: t => 0.62 - 0.5 * t }
-    ]);
     renderWaves(byId('contact-waves'), [
       { lines: 10, top: 250, gap: 34, amp: 26, phase: 4, step: 0.09, height: 600, speed: 140, alpha: t => 0.1 + 0.12 * t },
       { lines: 16, top: 270, gap: 22, amp: 30, phase: 1.4, step: 0.12, height: 600, speed: 95, alpha: t => 0.12 + 0.4 * t }
@@ -608,7 +872,112 @@
     // Las capas solo se mueven mientras se ven: fuera de pantalla no gastan nada.
     const observer = new IntersectionObserver(entries => entries.forEach(entry =>
       entry.target.classList.toggle('is-offscreen', !entry.isIntersecting)));
-    document.querySelectorAll('.hero, .contact-section').forEach(section => observer.observe(section));
+    document.querySelectorAll('.intro, .contact-section').forEach(section => observer.observe(section));
+
+    setupLight(document.querySelector('.contact-section'));
+  }
+
+  // La intro queda fija mientras el scroll la recorre: el mar se inclina hacia el horizonte,
+  // el mate se va flotando y la ficha de jugador sube desde el agua.
+  function setupIntro(typing) {
+    const intro = byId('inicio');
+    const sea = createSea(byId('hero-sea'), intro.querySelector('.intro__stage'));
+    const copy = intro.querySelector('.intro__copy');
+    const extras = intro.querySelector('.intro__extras');
+    const mate = intro.querySelector('.intro__mate');
+    const deal = intro.querySelector('.intro__deal');
+    const start = intro.querySelector('.intro__start');
+    const cue = intro.querySelector('.intro__cue');
+    const card = byId('player-card');
+    const rows = [...card.querySelectorAll('.stats__row')];
+    const parts = [copy, extras, mate, deal, start, cue];
+    const wide = matchMedia('(min-width: 900px) and (min-height: 620px)');
+    let pinned = false;
+    let frame = 0;
+
+    intro.querySelector('[data-mate]').classList.add('is-drawn');
+
+    const clamp = v => Math.min(1, Math.max(0, v));
+    const span = (p, from, to) => clamp((p - from) / (to - from));
+    const easeOut = t => 1 - (1 - t) ** 3;
+    const easeInOut = t => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
+    const fade = (node, opacity) => {
+      node.style.opacity = opacity.toFixed(3);
+      node.style.visibility = opacity < 0.02 ? 'hidden' : 'visible';
+    };
+
+    function render() {
+      frame = 0;
+      const p = clamp(-intro.getBoundingClientRect().top / (intro.offsetHeight - innerHeight));
+
+      sea.setTilt(easeInOut(span(p, 0, 0.62)));
+
+      typing.freeze(p > 0.02);
+
+      // El título le pasa la posta a la ficha: sube y se apaga mientras ella llega.
+      // Solo opacidad (sin visibility) para que el h1 nunca salga del árbol de accesibilidad.
+      const lift = easeOut(span(p, 0, 0.45));
+      copy.style.transform = `translate3d(0, ${(-lift * 10).toFixed(2)}vh, 0) scale(${(1 - lift * 0.12).toFixed(3)})`;
+      copy.style.opacity = (1 - span(p, 0.22, 0.42)).toFixed(3);
+
+      // El texto de abajo sube y se va mientras la ficha recién asoma desde abajo: no se pisan,
+      // y el botón sigue a mano hasta que aparece el aviso "Ver proyectos" de la ficha.
+      const out = span(p, 0.16, 0.34);
+      extras.style.transform = `translate3d(0, ${(-out * 90).toFixed(1)}px, 0)`;
+      fade(extras, 1 - out);
+
+      // El mate se queda: baja a flotar sobre el mar y acompaña a la ficha.
+      const settle = easeInOut(span(p, 0.1, 0.7));
+      mate.style.transform = `translate3d(${(settle * 2).toFixed(2)}vw, ${(settle * 2).toFixed(2)}vh, 0) scale(${(1 - settle * 0.22).toFixed(3)})`;
+
+      const dealt = easeOut(span(p, 0.28, 0.7));
+      deal.style.transform = `translate3d(0, ${((1 - dealt) * 50).toFixed(2)}vh, 0) perspective(1200px) rotateX(${((1 - dealt) * 40).toFixed(2)}deg)`;
+      fade(deal, span(p, 0.32, 0.46));
+      rows.forEach((row, i) => row.classList.toggle('is-on', p > 0.5 + i * 0.05));
+
+      fade(start, span(p, 0.24, 0.32));
+      fade(cue, 1 - span(p, 0, 0.06));
+    }
+    const request = () => { if (!frame) frame = requestAnimationFrame(render); };
+
+    // En pantallas chicas la intro no queda fija, pero el mar igual se inclina al bajar.
+    const stage = intro.querySelector('.intro__stage');
+    const tiltOnly = () => {
+      if (pinned || reduceMotion) return;
+      sea.setTilt(easeInOut(clamp(scrollY / (stage.offsetHeight * 0.9))) * 0.8);
+    };
+    addEventListener('scroll', () => requestAnimationFrame(tiltOnly), { passive: true });
+
+    function apply() {
+      const next = wide.matches && !reduceMotion;
+      if (next === pinned) {
+        if (pinned) request();
+        return;
+      }
+      pinned = next;
+      intro.classList.toggle('is-pinned', pinned);
+      if (pinned) {
+        card.classList.add('is-visible');
+        addEventListener('scroll', request, { passive: true });
+        addEventListener('resize', request);
+        request();
+      } else {
+        removeEventListener('scroll', request);
+        removeEventListener('resize', request);
+        sea.setTilt(0);
+        typing.freeze(false);
+        parts.forEach(node => {
+          node.style.transform = '';
+          node.style.opacity = '';
+          node.style.visibility = '';
+        });
+        rows.forEach(row => row.classList.add('is-on'));
+      }
+    }
+
+    rows.forEach(row => row.classList.add('is-on'));
+    wide.addEventListener('change', apply);
+    apply();
   }
 
   let toastTimer = 0;
@@ -659,10 +1028,11 @@
   renderPath();
   renderAbout();
   renderContact();
+  renderMates();
   setupWaves();
+  setupIntro(setupTyping());
   setupModal();
   setupReveal();
   setupNav();
-  setupTyping();
   setupKonami();
 })();
