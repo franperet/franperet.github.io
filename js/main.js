@@ -926,9 +926,9 @@
       extras.style.transform = `translate3d(0, ${(-out * 90).toFixed(1)}px, 0)`;
       fade(extras, 1 - out);
 
-      // El mate se queda: baja a flotar sobre el mar y acompaña a la ficha.
+      // El mate se queda en su esquina, apenas más chico mientras el mar se inclina.
       const settle = easeInOut(span(p, 0.1, 0.7));
-      mate.style.transform = `translate3d(${(settle * 2).toFixed(2)}vw, ${(settle * 2).toFixed(2)}vh, 0) scale(${(1 - settle * 0.22).toFixed(3)})`;
+      mate.style.transform = `scale(${(1 - settle * 0.12).toFixed(3)})`;
 
       const dealt = easeOut(span(p, 0.28, 0.7));
       deal.style.transform = `translate3d(0, ${((1 - dealt) * 50).toFixed(2)}vh, 0) perspective(1200px) rotateX(${((1 - dealt) * 40).toFixed(2)}deg)`;

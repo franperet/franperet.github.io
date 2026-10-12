@@ -159,7 +159,7 @@ components:
 
 **Creative North Star: "The Night-Sea Boot Sequence"**
 
-The materials are Francisco's itch.io page (franpe.itch.io): a deep night-navy ground, thin pale-blue wave lines, a line-drawn mate gourd, pale blue-grey Outfit type and a small diamond. The composition is not the itch page. It is a game booting up: a left-aligned editorial title screen over a live sea of lines, which the scroll tilts into perspective until the player card is dealt up out of the water and a HUD prompt invites the player in. The rest of the page keeps that editorial left axis: thin headings that slide up from a mask with a rule running out to a diamond, and boxed project cards that tilt and sink under the cursor like physical cards.
+The materials are Francisco's itch.io page (franpe.itch.io): a deep night-navy ground, thin pale-blue wave lines, a line-drawn mate gourd, pale blue-grey Outfit type and a small diamond. The composition is not the itch page. It is a game booting up: a title screen over a live sea of lines, its text set as one block centred on the screen but left-aligned inside, which the scroll tilts into perspective until the player card is dealt up out of the water and a HUD prompt invites the player in. The rest of the page keeps that editorial left axis: thin headings that slide up from a mask with a rule running out to a diamond, and boxed project cards that tilt and sink under the cursor like physical cards.
 
 Density is calm and generous, on one strong left axis. Display type is thin (Outfit 200) and very large; informational and interactive type is 400–600. Structure is drawn with 1px hairlines and tonal panels. Line work in the single sky-blue accent is the decoration: the sea, the mate, rules, diamonds. Light is not a surface treatment; it exists only where the cursor is (the sea's cursor light, the Contacto light, the card glare). Screenshots and video are the proof and carry the most colour.
 
@@ -168,7 +168,7 @@ Dark only, by the user's decision. The user's revision-2 direction rejects repro
 **Key Characteristics:**
 - Night-navy ground, tonal panels, 1px hairlines; one sky-blue accent; gold and green for status only.
 - Outfit throughout: 200 for display and headings, 300 for leads and sub-heads, 400–600 for UI.
-- One left axis: the hero title column, section headings, the dealt Ficha and the HUD prompt all start on the container's left edge.
+- Two axes, no more: inside the intro, the centred text block's left edge (title, scroll cue, dealt Ficha and HUD prompt all start on it); everywhere else, the container's left edge (section headings, filters, grids).
 - A live canvas sea in real perspective with drift, depth fog and a cursor light; SVG wave layers elsewhere.
 - Diamond (◆) from one SVG token: rule terminals, nav marker, bullets, HUD prompt, timeline nodes, mate gems.
 - Boxed cards (Panel, hairline, 10px) that tilt and sink toward the cursor on a spring, with a screen-blended glare.
@@ -234,16 +234,16 @@ Placeholder art tints each project by its own `color` from the data file mixed 1
 
 One container, `min(1200px, 100% - 40px)`, and one left axis. Sections pad clamp(96px, 11vw, 148px) vertically and alternate with the Night River Alt band. Every section head is a two-column grid: the heading at auto width, then a rule (min 48px) filling the rest of the line to a diamond at the container's right edge; a sub-line can span below. Gap to content clamp(40px, 5vw, 64px). The fixed header is 68px and drives `scroll-padding-top`.
 
-**Hero (intro).** Full-bleed sea under a grid of 1.2fr / 0.8fr columns (40px gap). The left column stacks the title and role, then lead, actions and socials; a left-to-right scrim (Night River 72% → 40% at 36% → clear at 62%) keeps the text column readable over the lines. The right column holds the mate at clamp(200px, 23vw, 360px), vertically centred. A scroll cue (a 1px line with a travelling Sky segment and "Bajá") sits bottom-left on the axis. The sea fades out from 62% to 98% of the stage height.
+**Hero (intro).** Full-bleed sea under a single column, `--block` 540px wide, centred in the container (`--block-left` = max(20px, 50% − 270px)); text stays left-aligned inside it: title and role, then lead, actions and socials. A centred elliptical scrim (Night River 72% → 35% at 55% → clear at 80%) keeps the block readable over the lines. The mate is a small companion, clamp(96px, 9vw, 140px), absolutely placed in the bottom-right corner of the container (9vh up). A scroll cue (a 1px line with a travelling Sky segment and "Bajá") sits bottom-left on the block's left edge. The sea fades out from 62% to 98% of the stage height.
 
-**Pinned intro (≥900px wide and ≥620px tall, motion allowed).** The section becomes 260vh with a sticky 100vh stage that the scroll scrubs. End frame is a player-select screen: the Ficha on the left axis at 25% from the top (min(720px, 56%) wide, stats in a 2×2 grid), the mate settled on the sea at right, and the "◆ Ver proyectos ◆" HUD prompt bottom-left at 30px. Below the threshold the intro is not pinned: the Ficha follows the hero in flow (max 1040px, 72px below) and the sea still tilts with scroll up to 80%.
+**Pinned intro (≥900px wide and ≥620px tall, motion allowed).** The section becomes 260vh with a sticky 100vh stage that the scroll scrubs. End frame is a player-select screen: the Ficha on the block's left edge at 22% from the top, as wide as the block (min(540px, 100% − 40px)), its head stacked over a 2×2 stats grid and its status on its own row; the mate staying in its bottom-right corner; and the "◆ Ver proyectos ◆" HUD prompt at the bottom on the block's left edge, 30px up. Below the threshold the intro is not pinned: the Ficha follows the hero in flow (max 1040px, 72px below) and the sea still tilts with scroll up to 80%.
 
 **Project grid.** Flex-wrap with `--cols` columns: 3 at 24px gap; the WIP grid 4 at 20px. Partial last rows stay left-aligned.
 
 Breakpoints, as built:
 - **1100px**: in the pinned end frame the Ficha body stacks (head above stats).
 - **1000px**: both grids go to 2 columns.
-- **899px / 900px**: the pin threshold. Below it the hero is one column, the mate shrinks to clamp(96px, 26vw, 150px) and sits top-right above the title; the scroll cue hides; the Ficha narrows to 560px and stacks with a 2×2 stats grid; about and Contacto stack, with the Contacto mate (110px) above the heading.
+- **899px / 900px**: the pin threshold. Below it the hero is one column, the mate is 84px in the bottom-right corner of the hero block, beside the actions and socials; the scroll cue hides; the Ficha narrows to 560px and stacks with a 2×2 stats grid; about and Contacto stack, with the Contacto mate (110px) above the heading.
 - **820px**: nav collapses behind a two-bar button into a dropdown panel; the nav diamond is dropped.
 - **720px**: main grid 1 column; WIP stays 2 columns at 12px, title-only; skills 1 column; tabs wrap without the hairline; modal is full-screen with a single-column body.
 - **560px**: smaller hero name and indent; section head gap 16px; the Ficha status wraps to its own row.
@@ -342,12 +342,12 @@ A 2D canvas, not an image. The wave function of the itch banner (two summed sine
 Generated SVG from the same wave function, used for Contacto (two drifting layers at 200% width, 95–140s, back layer reversed, paused offscreen) and as static fields in placeholders, avatar and photo.
 
 ### Mate (signature)
-A generated SVG gourd (120×160) drawn in Mist strokes with round caps: seven `pathLength`-normalised lines draw in 140ms apart (1.5s in-out), then the body fill and details fade in, five Sky diamond gems sit on a dotted band, and two Sky steam wisps loop every 4.2s. Stroke weight is a variable (0.62 hero, 1.1 small hero, 0.9 Contacto, 1.3 small Contacto). The hero mate bobs ±10px and ±1.5° over 7s.
+A generated SVG gourd (120×160) drawn in Mist strokes with round caps: seven `pathLength`-normalised lines draw in 140ms apart (1.5s in-out), then the body fill and details fade in, five Sky diamond gems sit on a dotted band, and two Sky steam wisps loop every 4.2s. Stroke weight is a variable (1.15 hero, 1.5 small hero, 0.9 Contacto, 1.3 small Contacto). The hero mate bobs ±10px and ±1.5° over 7s.
 
 ### Motion Grammar
 - **Easing:** ease-out `cubic-bezier(0.23, 1, 0.32, 1)` for entrances, reveals, hovers and press; ease-in-out `cubic-bezier(0.77, 0, 0.175, 1)` for draws and wipes (sea-in, mate lines, cover wipe, tab indicator, scroll cue). The intro scrub uses cubic ease-out and ease-in-out on scroll progress.
 - **Load:** title lines rise from their masks 120ms apart from 200ms (1.15s); the role rises at 650ms and types (75ms per letter, 35ms delete, 1.9s hold); lead, actions and socials rise from 750ms, 90ms apart; the cue fades in at 1.6s.
-- **Pinned intro timeline (scroll progress p):** sea tilt 0–0.62; title lifts 10vh and scales to 0.88 over 0–0.45 and fades over 0.22–0.42; lead and actions rise 90px and fade over 0.16–0.34; HUD prompt fades in over 0.24–0.32; mate settles (+2vw, +2vh, scale 0.78) over 0.10–0.70; the Ficha is dealt from 50vh below and 40° back over 0.28–0.70, visible from 0.32–0.46; stat rows light from 0.50, 0.05 apart; the cue leaves by 0.06. The typed role freezes whole while scrubbing.
+- **Pinned intro timeline (scroll progress p):** sea tilt 0–0.62; title lifts 10vh and scales to 0.88 over 0–0.45 and fades over 0.22–0.42; lead and actions rise 90px and fade over 0.16–0.34; HUD prompt fades in over 0.24–0.32; mate stays in its corner and scales to 0.88 (origin bottom-right) over 0.10–0.70; the Ficha is dealt from 50vh below and 40° back over 0.28–0.70, visible from 0.32–0.46; stat rows light from 0.50, 0.05 apart; the cue leaves by 0.06. The typed role freezes whole while scrubbing.
 - **Scroll reveal:** `.reveal` fades, rises 24px and unblurs 6px (0.9s ease-out, 80ms stagger), once at 12% visibility.
 - **Scroll-driven (behind `@supports (animation-timeline: view())` and reduced-motion no-preference):** header progress, section rule draw, cover parallax, Contacto tide.
 - **Reduced motion:** all durations collapse to 0.01ms with one iteration; reveals are shown immediately; the intro is not pinned; the sea is drawn once; no tilt, glare-follow or cursor light; the role does not type; the Konami burst is skipped.
@@ -356,7 +356,7 @@ A generated SVG gourd (120×160) drawn in Mist strokes with round caps: seven `p
 
 ### Do:
 - **Do** keep the page dark only, on Night River, as the user decided.
-- **Do** compose on the container's left axis: left-aligned headings with a Sky Line rule to a diamond, the hero title column on the left, the Ficha and HUD prompt on the same edge.
+- **Do** compose on the two axes: left-aligned headings with a Sky Line rule to a diamond on the container edge; in the intro, the centred text block with the Ficha, cue and HUD prompt on its left edge.
 - **Do** set titles in Outfit 200 and bring them in from a mask; use 400–600 for UI.
 - **Do** draw structure with 1px Hairline borders and tonal steps (ground, alt band, panel, raised panel).
 - **Do** box interactive cards as 10px Panels with a hairline, and give them the spring tilt, sink and screen-blended glare under a fine pointer.
@@ -368,7 +368,7 @@ A generated SVG gourd (120×160) drawn in Mist strokes with round caps: seven `p
 
 ### Don't:
 - **Don't** add a light theme.
-- **Don't** centre the hero title or reproduce the itch banner layout; the itch page supplies materials, not composition.
+- **Don't** reproduce the itch banner layout (centre-aligned name between flanking lines, small mate beside it); the itch page supplies materials, not composition. Keep the mate a small corner companion, never the hero's protagonist.
 - **Don't** use the near-black + neon-lime developer palette.
 - **Don't** add static glows, coloured shadows or neon; light appears only under the cursor, and blur only in the scrolled header.
 - **Don't** use Ember Gold or Online Green as decoration; they mark status only.

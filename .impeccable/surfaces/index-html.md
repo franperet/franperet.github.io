@@ -21,10 +21,10 @@ OWN-WORLD: Ground #0D1828, panels #13203A/#182333, hairlines #263B5B, text #C5D3
 
 STORY: The visitor reads the name and role like a game title and scrolls. The sea tilts into perspective and the Ficha de jugador rises over it. Then they open projects, skim skills and path, read about him, and copy the email beside the mate.
 
-FIRST VIEWPORT: Full-bleed wave sea lit by the cursor. Left-aligned staggered title: "Hola, soy" / "Francisco" / indented "Peret", with the typed role on its own row below behind a hairline. Lead, "Ver proyectos" and socials sit below on the left. A large line-drawn mate floats on the waves at the right. A scroll cue sits at the bottom.
+FIRST VIEWPORT: Full-bleed wave sea lit by the cursor. One text block centred on the screen, left-aligned inside: staggered title "Hola, soy" / "Francisco" / indented "Peret", the typed role on its own row below behind a hairline, then lead, "Ver proyectos" and socials. A small line-drawn mate floats in the bottom-right corner as a companion, not the protagonist. A scroll cue sits bottom-left on the block edge.
 
 FORM: Pinned by the user (the itch.io world); no concept roll was run. Seed key: none (pinned direction).
 
-SIGNATURE MOTION: A pinned intro (desktop) scrubbed by scroll. The wave plane rotates into perspective, the title lifts and hands off, the mate settles onto the sea, and the Ficha is dealt up on the title's left axis while its stats light in sequence; a "◆ Ver proyectos ◆" HUD prompt holds the bottom-left so an action is always visible. Elsewhere: left-aligned headings whose text slides up from a mask while a rule scrubs out to a diamond. Project cards are dealt in and tilt/sink on hover. Cover images parallax. Contacto's waves rise and a second mate draws itself.
+SIGNATURE MOTION: A pinned intro (desktop) scrubbed by scroll. The wave plane rotates into perspective, the title lifts and hands off, the mate stays in its corner, and the Ficha is dealt up on the text block's left edge while its stats light in sequence; a "◆ Ver proyectos ◆" HUD prompt holds the bottom-left so an action is always visible. Elsewhere: left-aligned headings whose text slides up from a mask while a rule scrubs out to a diamond. Project cards are dealt in and tilt/sink on hover. Cover images parallax. Contacto's waves rise and a second mate draws itself.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

@@ -28,6 +28,33 @@ const PORTFOLIO = {
 
   projects: [
     {
+      title: "IA - Collect the Trash",
+      tagline: "Sigilo en primera persona: juntar la comida del bosque y llevarla al tacho sin que te atrapen los locales.",
+      context: "UADE · Inteligencia Artificial",
+      status: "Publicado",
+      team: "",
+      role: "",
+      description: "Juego de sigilo en primera persona hecho en Unity para la materia Inteligencia Artificial de segundo año. Hay que recorrer el bosque, juntar la comida que está tirada en el piso y llevarla al tacho de basura del final del camino sin que te atrapen los locales. Los pinos sirven para esconderse: si te agarran, perdés.",
+      highlights: [
+        "Enemigos con máquina de estados: patrullan, te persiguen cuando te ven y, si te pierden, te buscan unos segundos antes de volver a su ruta",
+        "Detección por línea de visión: rango, cono de visión de 90° y raycast contra obstáculos, por eso los árboles sirven de cobertura",
+        "Steering behaviors (Seek, Arrive, Flee, Wander y Pursue) y rutas de patrulla con waypoints",
+        "Pathfinding con A* y Dijkstra sobre un grafo de nodos, con una cola de prioridad propia"
+      ],
+      tags: ["Unity", "C#", "3D", "Primera persona", "IA"],
+      color: "#5e8f4a",
+      cover: "assets/img/collect-the-trash/03.png",
+      images: [
+        "assets/img/collect-the-trash/03.png",
+        "assets/img/collect-the-trash/01.png",
+        "assets/img/collect-the-trash/02.png",
+        "assets/img/collect-the-trash/04.png",
+        "assets/img/collect-the-trash/cover.png"
+      ],
+      video: "",
+      links: { play: "https://franpe.itch.io/ia-collect-the-trash", code: "" }
+    },
+    {
       title: "Lost Between Walls",
       tagline: "Survival horror en primera persona: escapar de un laberinto mientras el hambre, las trampas y lo que vive adentro te persiguen.",
       context: "UADE · Desarrollo Avanzado de Videojuegos",
