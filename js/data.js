@@ -28,83 +28,31 @@ const PORTFOLIO = {
 
   projects: [
     {
-      title: "IA - Collect the Trash",
-      tagline: "Sigilo en primera persona: juntar la comida del bosque y llevarla al tacho sin que te atrapen los locales.",
-      context: "UADE · Inteligencia Artificial",
-      status: "Publicado",
-      team: "",
-      role: "",
-      description: "Juego de sigilo en primera persona hecho en Unity para la materia Inteligencia Artificial de segundo año. Hay que recorrer el bosque, juntar la comida que está tirada en el piso y llevarla al tacho de basura del final del camino sin que te atrapen los locales. Los pinos sirven para esconderse: si te agarran, perdés.",
-      highlights: [
-        "Enemigos con máquina de estados: patrullan, te persiguen cuando te ven y, si te pierden, te buscan unos segundos antes de volver a su ruta",
-        "Detección por línea de visión: rango, cono de visión de 90° y raycast contra obstáculos, por eso los árboles sirven de cobertura",
-        "Steering behaviors (Seek, Arrive, Flee, Wander y Pursue) y rutas de patrulla con waypoints",
-        "Pathfinding con A* y Dijkstra sobre un grafo de nodos, con una cola de prioridad propia"
-      ],
-      tags: ["Unity", "C#", "3D", "Primera persona", "IA"],
-      color: "#5e8f4a",
-      cover: "assets/img/collect-the-trash/03.png",
-      images: [
-        "assets/img/collect-the-trash/03.png",
-        "assets/img/collect-the-trash/01.png",
-        "assets/img/collect-the-trash/02.png",
-        "assets/img/collect-the-trash/04.png",
-        "assets/img/collect-the-trash/cover.png"
-      ],
-      video: "",
-      links: { play: "https://franpe.itch.io/ia-collect-the-trash", code: "" }
-    },
-    {
-      title: "Lost Between Walls",
-      tagline: "Survival horror en primera persona: escapar de un laberinto mientras el hambre, las trampas y lo que vive adentro te persiguen.",
-      context: "UADE · Desarrollo Avanzado de Videojuegos",
-      status: "Publicado",
-      team: "",
-      role: "",
-      description: "Prototipo de survival horror y puzzles en 3D. El jugador aparece en un bosque rodeado de paredes gigantes, con la entrada a un laberinto como única salida. Para escapar tiene que manejar el hambre y sobrevivir a las trampas y enemigos que esconde el laberinto.",
-      highlights: [
-        "Primer proyecto en Unreal Engine 5: el objetivo era aprender el motor desde cero",
-        "Supervivencia con barra de hambre, trampas y enemigos dentro del laberinto",
-        "Mezcla de exploración, puzzles y terror en primera persona"
-      ],
-      tags: ["Unreal Engine", "3D", "Primera persona", "Survival horror"],
-      color: "#8a7a5c",
-      cover: "assets/img/lost-between-walls/02.jpg",
-      images: [
-        "assets/img/lost-between-walls/02.jpg",
-        "assets/img/lost-between-walls/06.jpg",
-        "assets/img/lost-between-walls/04.jpg",
-        "assets/img/lost-between-walls/01.png",
-        "assets/img/lost-between-walls/05.png",
-        "assets/img/lost-between-walls/03.png"
-      ],
-      video: "",
-      links: { play: "https://franpe.itch.io/lost-between-walls", code: "" }
-    },
-    {
-      title: "Cold As Ice",
-      tagline: "Plataformero 3D en tercera persona: un cubito de hielo que se derrite mientras vuelve a casa.",
-      context: "UADE · Programación de Sistemas de Juego",
+      title: "B.A. Noire",
+      tagline: "Point & click 2D de detectives por las calles de Buenos Aires.",
+      context: "UADE · Primer año",
       status: "Prototipo",
-      team: "",
-      role: "",
-      description: "El jugador es un cubito de hielo que tiene que cruzar la casa hasta la hielera que alguna vez fue su hogar. En el camino salta, se desliza y esquiva obstáculos mientras se derrite por el calor del piso y de los objetos.",
+      team: "Equipo de 3",
+      role: "Programación",
+      description: "El detective Plomo Baretta viaja desde Italia para resolver una investigación privada encargada por un contratista anónimo. Recorre Buenos Aires buscando pistas para acusar al culpable de cada crimen, a lo largo de 3 capítulos.",
       highlights: [
-        "Hecho para aprender patrones de programación aplicados en Unity",
-        "El tiempo es el recurso principal: el personaje se derrite con el calor del escenario",
-        "Movimiento de plataformas con salto, deslizamiento y obstáculos"
+        "Puzzles point & click repartidos en 3 capítulos",
+        "Estética en blanco y negro con aire de cine noir",
+        "Hecho en equipo para tres materias a la vez: Desarrollo de Juegos en Tiempo Real, Diseño de Interfaces y UX, y Diseño de Videojuegos"
       ],
-      tags: ["Unity", "C#", "3D", "Plataformas"],
-      color: "#3a8fd6",
-      cover: "assets/img/cold-as-ice/01.jpg",
+      tags: ["Unity", "C#", "2D", "Point & click"],
+      color: "#9a9a9a",
+      cover: "assets/img/ba-noire/04.jpg",
       images: [
-        "assets/img/cold-as-ice/01.jpg",
-        "assets/img/cold-as-ice/03.jpg",
-        "assets/img/cold-as-ice/04.jpg",
-        "assets/img/cold-as-ice/02.jpg"
+        "assets/img/ba-noire/04.jpg",
+        "assets/img/ba-noire/02.jpg",
+        "assets/img/ba-noire/03.jpg",
+        "assets/img/ba-noire/05.jpg",
+        "assets/img/ba-noire/06.jpg",
+        "assets/img/ba-noire/08.jpg"
       ],
-      video: "Stb_8RPkQbA",
-      links: { play: "https://franpe.itch.io/cold-as-ice", code: "" }
+      video: "",
+      links: { play: "https://franpe.itch.io/ba-noire", code: "" }
     },
     {
       title: "HandMade AnotherTypicalZombieGame",
@@ -132,60 +80,31 @@ const PORTFOLIO = {
       links: { play: "https://franpe.itch.io/handmade-anothertypicalzombiegame", code: "" }
     },
     {
-      title: "Coeur de Mime",
-      tagline: "Plataformero 2D de memoria: un mimo que solo ve el camino gracias a su maquillaje.",
-      context: "UADE · Producción de Videojuegos",
-      status: "Prototipo",
-      team: "Equipo de 5",
-      role: "Programación",
-      description: "Gastón, un mimo parisino, recorre las calles de París y las catacumbas juntando flores para regalarle un ramo a su amada. Su maquillaje le deja ver paredes y plataformas invisibles, pero el agua se lo borra: ahí el jugador depende de su memoria para recordar el camino.",
+      title: "Lost Between Walls",
+      tagline: "Survival horror en primera persona: escapar de un laberinto mientras el hambre, las trampas y lo que vive adentro te persiguen.",
+      context: "UADE · Desarrollo Avanzado de Videojuegos",
+      status: "Publicado",
+      team: "",
+      role: "",
+      description: "Prototipo de survival horror y puzzles en 3D. El jugador aparece en un bosque rodeado de paredes gigantes, con la entrada a un laberinto como única salida. Para escapar tiene que manejar el hambre y sobrevivir a las trampas y enemigos que esconde el laberinto.",
       highlights: [
-        "Mecánica central de percepción: las plataformas siguen ahí aunque no se vean",
-        "Proyecto en equipo con roles divididos como en un estudio de la industria",
-        "Niveles en las calles de París y en las catacumbas"
+        "Primer proyecto en Unreal Engine 5: el objetivo era aprender el motor desde cero",
+        "Supervivencia con barra de hambre, trampas y enemigos dentro del laberinto",
+        "Mezcla de exploración, puzzles y terror en primera persona"
       ],
-      tags: ["Unity", "C#", "2D", "Plataformas"],
-      color: "#d9a441",
-      cover: "assets/img/coeur-de-mime/06.jpg",
+      tags: ["Unreal Engine", "3D", "Primera persona", "Survival horror"],
+      color: "#8a7a5c",
+      cover: "assets/img/lost-between-walls/02.jpg",
       images: [
-        "assets/img/coeur-de-mime/06.jpg",
-        "assets/img/coeur-de-mime/03.jpg",
-        "assets/img/coeur-de-mime/04.jpg",
-        "assets/img/coeur-de-mime/05.jpg",
-        "assets/img/coeur-de-mime/01.jpg",
-        "assets/img/coeur-de-mime/02.jpg",
-        "assets/img/coeur-de-mime/07.jpg",
-        "assets/img/coeur-de-mime/08.jpg"
-      ],
-      video: "uoDC5HrfKnc",
-      links: { play: "https://franpe.itch.io/coeur-de-mime", code: "" }
-    },
-    {
-      title: "B.A. Noire",
-      tagline: "Point & click 2D de detectives por las calles de Buenos Aires.",
-      context: "UADE · Primer año",
-      status: "Prototipo",
-      team: "Equipo de 3",
-      role: "Programación",
-      description: "El detective Plomo Baretta viaja desde Italia para resolver una investigación privada encargada por un contratista anónimo. Recorre Buenos Aires buscando pistas para acusar al culpable de cada crimen, a lo largo de 3 capítulos.",
-      highlights: [
-        "Puzzles point & click repartidos en 3 capítulos",
-        "Estética en blanco y negro con aire de cine noir",
-        "Hecho en equipo para tres materias a la vez: Desarrollo de Juegos en Tiempo Real, Diseño de Interfaces y UX, y Diseño de Videojuegos"
-      ],
-      tags: ["Unity", "C#", "2D", "Point & click"],
-      color: "#9a9a9a",
-      cover: "assets/img/ba-noire/04.jpg",
-      images: [
-        "assets/img/ba-noire/04.jpg",
-        "assets/img/ba-noire/02.jpg",
-        "assets/img/ba-noire/03.jpg",
-        "assets/img/ba-noire/05.jpg",
-        "assets/img/ba-noire/06.jpg",
-        "assets/img/ba-noire/08.jpg"
+        "assets/img/lost-between-walls/02.jpg",
+        "assets/img/lost-between-walls/06.jpg",
+        "assets/img/lost-between-walls/04.jpg",
+        "assets/img/lost-between-walls/01.png",
+        "assets/img/lost-between-walls/05.png",
+        "assets/img/lost-between-walls/03.png"
       ],
       video: "",
-      links: { play: "https://franpe.itch.io/ba-noire", code: "" }
+      links: { play: "https://franpe.itch.io/lost-between-walls", code: "" }
     },
     {
       title: "Prisión 1984",
@@ -239,6 +158,87 @@ const PORTFOLIO = {
       ],
       video: "",
       links: { play: "https://franpe.itch.io/handmade-pong", code: "" }
+    },
+    {
+      title: "IA - Collect the Trash",
+      tagline: "Sigilo en primera persona: juntar la comida del bosque y llevarla al tacho sin que te atrapen los locales.",
+      context: "UADE · Inteligencia Artificial",
+      status: "Publicado",
+      team: "",
+      role: "",
+      description: "Juego de sigilo en primera persona hecho en Unity para la materia Inteligencia Artificial de segundo año. Hay que recorrer el bosque, juntar la comida que está tirada en el piso y llevarla al tacho de basura del final del camino sin que te atrapen los locales. Los pinos sirven para esconderse: si te agarran, perdés.",
+      highlights: [
+        "Enemigos con máquina de estados: patrullan, te persiguen cuando te ven y, si te pierden, te buscan unos segundos antes de volver a su ruta",
+        "Detección por línea de visión: rango, cono de visión de 90° y raycast contra obstáculos, por eso los árboles sirven de cobertura",
+        "Steering behaviors (Seek, Arrive, Flee, Wander y Pursue) y rutas de patrulla con waypoints",
+        "Pathfinding con A* y Dijkstra sobre un grafo de nodos, con una cola de prioridad propia"
+      ],
+      tags: ["Unity", "C#", "3D", "Primera persona", "IA"],
+      color: "#5e8f4a",
+      cover: "assets/img/collect-the-trash/03.png",
+      images: [
+        "assets/img/collect-the-trash/03.png",
+        "assets/img/collect-the-trash/01.png",
+        "assets/img/collect-the-trash/02.png",
+        "assets/img/collect-the-trash/04.png",
+        "assets/img/collect-the-trash/cover.png"
+      ],
+      video: "",
+      links: { play: "https://franpe.itch.io/ia-collect-the-trash", code: "" }
+    },
+    {
+      title: "Cold As Ice",
+      tagline: "Plataformero 3D en tercera persona: un cubito de hielo que se derrite mientras vuelve a casa.",
+      context: "UADE · Programación de Sistemas de Juego",
+      status: "Prototipo",
+      team: "",
+      role: "",
+      description: "El jugador es un cubito de hielo que tiene que cruzar la casa hasta la hielera que alguna vez fue su hogar. En el camino salta, se desliza y esquiva obstáculos mientras se derrite por el calor del piso y de los objetos.",
+      highlights: [
+        "Hecho para aprender patrones de programación aplicados en Unity",
+        "El tiempo es el recurso principal: el personaje se derrite con el calor del escenario",
+        "Movimiento de plataformas con salto, deslizamiento y obstáculos"
+      ],
+      tags: ["Unity", "C#", "3D", "Plataformas"],
+      color: "#3a8fd6",
+      cover: "assets/img/cold-as-ice/01.jpg",
+      images: [
+        "assets/img/cold-as-ice/01.jpg",
+        "assets/img/cold-as-ice/03.jpg",
+        "assets/img/cold-as-ice/04.jpg",
+        "assets/img/cold-as-ice/02.jpg"
+      ],
+      video: "Stb_8RPkQbA",
+      links: { play: "https://franpe.itch.io/cold-as-ice", code: "" }
+    },
+    {
+      title: "Coeur de Mime",
+      tagline: "Plataformero 2D de memoria: un mimo que solo ve el camino gracias a su maquillaje.",
+      context: "UADE · Producción de Videojuegos",
+      status: "Prototipo",
+      team: "Equipo de 5",
+      role: "Programación",
+      description: "Gastón, un mimo parisino, recorre las calles de París y las catacumbas juntando flores para regalarle un ramo a su amada. Su maquillaje le deja ver paredes y plataformas invisibles, pero el agua se lo borra: ahí el jugador depende de su memoria para recordar el camino.",
+      highlights: [
+        "Mecánica central de percepción: las plataformas siguen ahí aunque no se vean",
+        "Proyecto en equipo con roles divididos como en un estudio de la industria",
+        "Niveles en las calles de París y en las catacumbas"
+      ],
+      tags: ["Unity", "C#", "2D", "Plataformas"],
+      color: "#d9a441",
+      cover: "assets/img/coeur-de-mime/06.jpg",
+      images: [
+        "assets/img/coeur-de-mime/06.jpg",
+        "assets/img/coeur-de-mime/03.jpg",
+        "assets/img/coeur-de-mime/04.jpg",
+        "assets/img/coeur-de-mime/05.jpg",
+        "assets/img/coeur-de-mime/01.jpg",
+        "assets/img/coeur-de-mime/02.jpg",
+        "assets/img/coeur-de-mime/07.jpg",
+        "assets/img/coeur-de-mime/08.jpg"
+      ],
+      video: "uoDC5HrfKnc",
+      links: { play: "https://franpe.itch.io/coeur-de-mime", code: "" }
     }
   ],
 
