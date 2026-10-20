@@ -19,7 +19,7 @@ A student who has shipped games in both Unity (C#) and Unreal (Blueprints), in 2
 Static site on GitHub Pages (franperet.github.io), no frameworks, no build step. All copy, projects and links live in `js/data.js`; `js/main.js` renders the page from it. Opens locally by double-clicking `index.html`. The site is Spanish (Rioplatense voseo).
 
 ## Capabilities and Constraints
-- Sections, in order: hero with player card, Proyectos (filters, cards, "En desarrollo"), Habilidades (tabs), Trayectoria (tabs), Sobre mí, Contacto, footer.
+- Sections, in order: hero with player card, Proyectos (filters including "En desarrollo", one card grid where in-progress projects come first with a badge), Habilidades (tabs), Trayectoria (tabs), Sobre mí, Contacto, footer.
 - Project modal with gallery, video (local MP4 or YouTube), facts, links and previous/next navigation.
 - Konami code easter egg, typing roles in the hero, copy-email-to-clipboard.
 - The user asked to keep all current content and the section structure exactly as they are.

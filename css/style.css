@@ -1452,49 +1452,6 @@ kbd {
   }
 }
 
-.wip {
-  margin-top: clamp(88px, 10vw, 128px);
-}
-
-.wip__head {
-  margin-bottom: 32px;
-}
-
-.wip__head h3 {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  font-size: clamp(1.7rem, 3vw, 2.2rem);
-  font-weight: 200;
-}
-
-.wip__head p {
-  margin-top: 8px;
-  color: var(--text-muted);
-  font-weight: 300;
-}
-
-.cards--wip {
-  --cols: 4;
-  --gap: 20px;
-}
-
-.cards--wip .card__body {
-  padding: 16px 18px 18px;
-}
-
-.cards--wip .card__title {
-  font-size: 1.12rem;
-}
-
-.cards--wip .card__tagline {
-  font-size: 0.92rem;
-}
-
-.cards--wip .ph span:last-child {
-  font-size: 1.2rem;
-}
-
 /* ---------- Pestañas ---------- */
 
 .tabs {
@@ -2349,8 +2306,7 @@ kbd {
 }
 
 @media (max-width: 1000px) {
-  .cards,
-  .cards--wip {
+  .cards {
     --cols: 2;
   }
 }
@@ -2459,34 +2415,6 @@ kbd {
 @media (max-width: 720px) {
   .cards {
     --cols: 1;
-  }
-
-  .cards--wip {
-    --cols: 2;
-    --gap: 12px;
-  }
-
-  .cards--wip .card__body {
-    padding: 12px 14px 14px;
-  }
-
-  .cards--wip .card__tagline,
-  .cards--wip .genre,
-  .cards--wip .card__more,
-  .cards--wip .ph span:last-child {
-    display: none;
-  }
-
-  .cards--wip .card__title {
-    font-size: 1rem;
-  }
-
-  .cards--wip .cover__badge {
-    top: 8px;
-    left: 8px;
-    gap: 6px;
-    padding: 3px 7px;
-    font-size: 0.6rem;
   }
 
   .skills {

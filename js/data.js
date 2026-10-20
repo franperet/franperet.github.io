@@ -21,12 +21,69 @@ const PORTFOLIO = {
     ["Clase", "Game Developer"],
     ["Especialidad", "Programación y game design"],
     ["Motores", "Unity · Unreal"],
-    ["Lenguajes", "C# · Blueprints · C++"]
+    ["Lenguajes", "C# · Blueprints"]
   ],
 
-  filters: ["Unity", "Unreal Engine", "2D", "3D", "Sin motor"],
+  filters: ["Unity", "Unreal Engine", "2D", "3D", "Sin motor", "En desarrollo"],
 
   projects: [
+    {
+      title: "Wizards of Ages",
+      tagline: "Acción cooperativa local para 2 jugadores: magos que pelean con hechizos en un castillo encantado.",
+      context: "Seminario 2026",
+      status: "En desarrollo",
+      team: "",
+      role: "Programación",
+      description: "Dos magos recorren un castillo y sus jardines peleando contra enemigos hasta llegar a un jefe final. Cada jugador elige entre cuatro personajes y se juega con teclado y mouse o con joystick. La imagen tiene un estilo retro gracias a una cámara que renderiza a baja resolución.",
+      highlights: [
+        "Tienda 3D: la cámara viaja hasta las repisas y cada jugador compra con su propio cursor virtual",
+        "Cinemática inicial con subtítulos, narrador y opción de saltarla",
+        "Selección entre cuatro personajes y tutorial jugable para aprender los controles",
+        "Estilo retro con render a baja resolución"
+      ],
+      tags: ["Unity", "C#", "3D", "Co-op local"],
+      color: "#ffb020",
+      cover: "assets/img/wizards-of-ages/01.jpg",
+      images: [
+        "assets/img/wizards-of-ages/01.jpg",
+        "assets/img/wizards-of-ages/02.jpg",
+        "assets/img/wizards-of-ages/03.jpg",
+        "assets/img/wizards-of-ages/04.jpg",
+        "assets/img/wizards-of-ages/05.jpg",
+        "assets/img/wizards-of-ages/06.jpg",
+        "assets/img/wizards-of-ages/07.jpg"
+      ],
+      video: "assets/video/wizards-of-ages.mp4",
+      videoPoster: "assets/video/wizards-of-ages.jpg",
+      links: { play: "", code: "" }
+    },
+    {
+      title: "Subject Primate",
+      tagline: "Puzzle cooperativo en primera persona para 2 a 4 jugadores en red.",
+      context: "Proyecto en equipo",
+      status: "En desarrollo",
+      team: "Equipo de 2",
+      role: "Programación de gameplay y red",
+      description: "Dos monos de laboratorio con poderes opuestos tienen que escapar juntos: uno levanta objetos y hasta a su compañero, el otro intercambia posiciones. Se juega en red, en cooperativo de a 2 o en carrera de 2 contra 2.",
+      highlights: [
+        "Multijugador en red con Photon Fusion 2: crear o buscar partida, elegir personaje y jugar sincronizados",
+        "Poderes Grab y Swap pensados para que cada puzzle necesite a los dos jugadores",
+        "Nivel armado en tres zonas encadenadas: lobby, laboratorio y nivel 1",
+        "Menú principal en 3D, con los personajes en una isla"
+      ],
+      tags: ["Unity", "Photon Fusion", "3D", "Multijugador"],
+      color: "#ff5a5f",
+      cover: "assets/img/subject-primate/01.jpg",
+      images: [
+        "assets/img/subject-primate/01.jpg",
+        "assets/img/subject-primate/02.jpg",
+        "assets/img/subject-primate/03.jpg",
+        "assets/img/subject-primate/04.jpg"
+      ],
+      video: "assets/video/subject-primate.mp4",
+      videoPoster: "assets/video/subject-primate.jpg",
+      links: { play: "", code: "" }
+    },
     {
       title: "B.A. Noire",
       tagline: "Point & click 2D de detectives por las calles de Buenos Aires.",
@@ -59,8 +116,8 @@ const PORTFOLIO = {
       tagline: "Shooter top-down hecho desde cero en C#, sin motor de juego.",
       context: "UADE · Paradigmas de la Programación",
       status: "Publicado",
-      team: "",
-      role: "",
+      team: "Equipo de 2",
+      role: "Programación",
       description: "Hay que sobrevivir 5 minutos a una horda de zombies que aparecen cada vez más seguido: si te agarran tres a la vez perdés, y si aguantás hasta que el reloj llega a cero, ganás. Tiene power-ups de munición, disparo rápido y velocidad.",
       highlights: [
         "Sin Unity ni Godot: bucle de juego, colisiones y movimiento de los zombies programados a mano",
@@ -84,8 +141,8 @@ const PORTFOLIO = {
       tagline: "Survival horror en primera persona: escapar de un laberinto mientras el hambre, las trampas y lo que vive adentro te persiguen.",
       context: "UADE · Desarrollo Avanzado de Videojuegos",
       status: "Publicado",
-      team: "",
-      role: "",
+      team: "Equipo de 5",
+      role: "Programación",
       description: "Prototipo de survival horror y puzzles en 3D. El jugador aparece en un bosque rodeado de paredes gigantes, con la entrada a un laberinto como única salida. Para escapar tiene que manejar el hambre y sobrevivir a las trampas y enemigos que esconde el laberinto.",
       highlights: [
         "Primer proyecto en Unreal Engine 5: el objetivo era aprender el motor desde cero",
@@ -138,8 +195,8 @@ const PORTFOLIO = {
       tagline: "Pong clásico programado desde cero en C++, sin motor de juego.",
       context: "UADE · Introducción a la Programación",
       status: "Publicado",
-      team: "",
-      role: "",
+      team: "Individual",
+      role: "Desarrollo completo",
       description: "Hay 30 segundos para hacerle más puntos que la máquina. La paleta rival sigue la pelota, así que no te la deja fácil. Fue el primer proyecto de la carrera, en primer año.",
       highlights: [
         "Sin Unity ni Godot: bucle de juego, movimiento de la pelota y rebotes escritos a mano",
@@ -164,8 +221,8 @@ const PORTFOLIO = {
       tagline: "Sigilo en primera persona: juntar la comida del bosque y llevarla al tacho sin que te atrapen los locales.",
       context: "UADE · Inteligencia Artificial",
       status: "Publicado",
-      team: "",
-      role: "",
+      team: "Individual",
+      role: "Desarrollo completo",
       description: "Juego de sigilo en primera persona hecho en Unity para la materia Inteligencia Artificial de segundo año. Hay que recorrer el bosque, juntar la comida que está tirada en el piso y llevarla al tacho de basura del final del camino sin que te atrapen los locales. Los pinos sirven para esconderse: si te agarran, perdés.",
       highlights: [
         "Enemigos con máquina de estados: patrullan, te persiguen cuando te ven y, si te pierden, te buscan unos segundos antes de volver a su ruta",
@@ -191,8 +248,8 @@ const PORTFOLIO = {
       tagline: "Plataformero 3D en tercera persona: un cubito de hielo que se derrite mientras vuelve a casa.",
       context: "UADE · Programación de Sistemas de Juego",
       status: "Prototipo",
-      team: "",
-      role: "",
+      team: "Equipo de 3",
+      role: "Programación",
       description: "El jugador es un cubito de hielo que tiene que cruzar la casa hasta la hielera que alguna vez fue su hogar. En el camino salta, se desliza y esquiva obstáculos mientras se derrite por el calor del piso y de los objetos.",
       highlights: [
         "Hecho para aprender patrones de programación aplicados en Unity",
@@ -239,66 +296,6 @@ const PORTFOLIO = {
       ],
       video: "uoDC5HrfKnc",
       links: { play: "https://franpe.itch.io/coeur-de-mime", code: "" }
-    }
-  ],
-
-  inProgress: [
-    {
-      title: "Subject Primate",
-      tagline: "Puzzle cooperativo en primera persona para 2 a 4 jugadores en red.",
-      context: "Proyecto en equipo",
-      status: "En desarrollo",
-      team: "Equipo de 2",
-      role: "Programación de gameplay y red",
-      description: "Dos monos de laboratorio con poderes opuestos tienen que escapar juntos: uno levanta objetos y hasta a su compañero, el otro intercambia posiciones. Se juega en red, en cooperativo de a 2 o en carrera de 2 contra 2.",
-      highlights: [
-        "Multijugador en red con Photon Fusion 2: crear o buscar partida, elegir personaje y jugar sincronizados",
-        "Poderes Grab y Swap pensados para que cada puzzle necesite a los dos jugadores",
-        "Nivel armado en tres zonas encadenadas: lobby, laboratorio y nivel 1",
-        "Menú principal en 3D, con los personajes en una isla"
-      ],
-      tags: ["Unity", "Photon Fusion", "Multijugador"],
-      color: "#ff5a5f",
-      cover: "assets/img/subject-primate/01.jpg",
-      images: [
-        "assets/img/subject-primate/01.jpg",
-        "assets/img/subject-primate/02.jpg",
-        "assets/img/subject-primate/03.jpg",
-        "assets/img/subject-primate/04.jpg"
-      ],
-      video: "assets/video/subject-primate.mp4",
-      videoPoster: "assets/video/subject-primate.jpg",
-      links: { play: "", code: "" }
-    },
-    {
-      title: "Wizards of Ages",
-      tagline: "Acción cooperativa local para 2 jugadores: magos que pelean con hechizos en un castillo encantado.",
-      context: "Seminario 2026",
-      status: "En desarrollo",
-      team: "",
-      role: "Programación",
-      description: "Dos magos recorren un castillo y sus jardines peleando contra enemigos hasta llegar a un jefe final. Cada jugador elige entre cuatro personajes y se juega con teclado y mouse o con joystick. La imagen tiene un estilo retro gracias a una cámara que renderiza a baja resolución.",
-      highlights: [
-        "Tienda 3D: la cámara viaja hasta las repisas y cada jugador compra con su propio cursor virtual",
-        "Cinemática inicial con subtítulos, narrador y opción de saltarla",
-        "Selección entre cuatro personajes y tutorial jugable para aprender los controles",
-        "Estilo retro con render a baja resolución"
-      ],
-      tags: ["Unity", "Co-op local", "Estilo retro"],
-      color: "#ffb020",
-      cover: "assets/img/wizards-of-ages/01.jpg",
-      images: [
-        "assets/img/wizards-of-ages/01.jpg",
-        "assets/img/wizards-of-ages/02.jpg",
-        "assets/img/wizards-of-ages/03.jpg",
-        "assets/img/wizards-of-ages/04.jpg",
-        "assets/img/wizards-of-ages/05.jpg",
-        "assets/img/wizards-of-ages/06.jpg",
-        "assets/img/wizards-of-ages/07.jpg"
-      ],
-      video: "assets/video/wizards-of-ages.mp4",
-      videoPoster: "assets/video/wizards-of-ages.jpg",
-      links: { play: "", code: "" }
     },
     {
       title: "Mi última primavera",
@@ -314,10 +311,14 @@ const PORTFOLIO = {
         "El aula se ve desde los ojos de Olga en una pantalla ovalada, con render texture y un shader propio",
         "Diálogos que se escriben letra por letra y cámara que viaja entre vistas"
       ],
-      tags: ["Unity", "URP", "Narrativa"],
+      tags: ["Unity", "URP", "3D", "Narrativa"],
       color: "#8b6cff",
-      cover: "",
-      images: [],
+      cover: "assets/img/mi-ultima-primavera/01.jpg",
+      images: [
+        "assets/img/mi-ultima-primavera/01.jpg",
+        "assets/img/mi-ultima-primavera/02.jpg",
+        "assets/img/mi-ultima-primavera/03.jpg"
+      ],
       video: "",
       links: { play: "", code: "" }
     },
@@ -334,7 +335,7 @@ const PORTFOLIO = {
         "Linterna que se levanta del piso, interruptores de luz, ventilador de techo y puertas con bisagra",
         "Cámara de video que, al agarrarla, muestra un HUD de grabación con efectos de post-procesado"
       ],
-      tags: ["Unity", "Primera persona", "Terror"],
+      tags: ["Unity", "3D", "Primera persona", "Terror"],
       color: "#2bb3a3",
       cover: "",
       images: [],
@@ -348,14 +349,14 @@ const PORTFOLIO = {
       category: "Lenguajes",
       items: [
         { name: "C#", detail: "Gameplay, sistemas de interacción y herramientas en Unity" },
-        { name: "C++", detail: "Juegos 2D con SDL2 y bases de programación" }
+        { name: "Blueprints", detail: "Scripting visual de gameplay en Unreal Engine" }
       ]
     },
     {
       category: "Motores y librerías",
       items: [
         { name: "Unity 6", detail: "URP, Input System, Render Textures y cinemáticas" },
-        { name: "Unreal Engine", detail: "Programación de gameplay con Blueprints" },
+        { name: "Unreal Engine", detail: "Gameplay y level design en 3D" },
         { name: "Photon Fusion 2", detail: "Multijugador en red para Unity" },
         { name: "SDL / SDL2", detail: "Ventana, render, input y audio a bajo nivel" }
       ]
@@ -364,7 +365,7 @@ const PORTFOLIO = {
       category: "Herramientas",
       items: [
         { name: "Git y GitHub", detail: "Control de versiones y trabajo en equipo" },
-        { name: "Visual Studio", detail: "Desarrollo y depuración en C# y C++" },
+        { name: "Visual Studio", detail: "Desarrollo y depuración en C#" },
         { name: "Twine", detail: "Narrativa ramificada en formato Harlowe" }
       ]
     },
@@ -397,7 +398,7 @@ const PORTFOLIO = {
       "Busco sumarme a un estudio donde pueda seguir creciendo en programación y game design."
     ],
     learning: ["Shaders", "Netcode", "Optimización"],
-    languages: ["Español · nativo", "Inglés · completar nivel"],
+    languages: ["Español · nativo", "Inglés · intermedio"],
     hobbies: []
   }
 };

@@ -83,7 +83,6 @@ spacing:
   section: "clamp(96px, 11vw, 148px)"
   section-head: "clamp(40px, 5vw, 64px)"
   card-gap: "24px"
-  wip-gap: "20px"
 components:
   button-primary:
     backgroundColor: "{colors.sky-link}"
@@ -184,7 +183,7 @@ A single cool family: night-navy grounds, blue-grey text, one sky-blue accent, w
 - **Sky Line** (`sky-line`): Sky at 50%, the colour of rules: the section rule that runs to the diamond, the hero role's hairline lead-in, the toast border.
 
 ### Tertiary
-- **Ember Gold** (`ember-gold`): status dot for "en desarrollo" work (WIP sub-head and cover badges).
+- **Ember Gold** (`ember-gold`): status dot for "en desarrollo" work (the cover badge on those cards in the main grid).
 - **Online Green** (`online-green`): the pinging "open to work" dot in the Ficha.
 
 ### Neutral
@@ -217,10 +216,10 @@ Placeholder art tints each project by its own `color` from the data file mixed 1
 ### Hierarchy
 - **Display** (200, clamp(3.2rem, 7vw, 6rem), 0.98, -0.02em): the hero name, one word per masked line, the last line indented 1.5em ("Francisco" / "Peret"). Above it the greeting "Hola, soy" is 200 at clamp(1.5rem, 2.4vw, 2.1rem) in Mist. Under 560px the name is clamp(2.7rem, 14vw, 3.6rem) with a 1em indent. Contacto's "¿Hablamos?" uses the same voice at clamp(3rem, 8vw, 6rem).
 - **Headline** (200, clamp(2.3rem, 5vw, 4rem), 1.15, -0.015em): section headings, left-aligned, followed by the rule.
-- **Subhead** (300, clamp(1.4rem, 2.6vw, 1.75rem)): timeline entries. The same step clusters the WIP sub-head (200, clamp(1.7rem, 3vw, 2.2rem)), the about opening line (300, clamp(1.35rem, 2.3vw, 1.7rem), 1.4) and the modal title (300, clamp(1.9rem, 4vw, 2.6rem)).
+- **Subhead** (300, clamp(1.4rem, 2.6vw, 1.75rem)): timeline entries. The same step clusters the about opening line (300, clamp(1.35rem, 2.3vw, 1.7rem), 1.4) and the modal title (300, clamp(1.9rem, 4vw, 2.6rem)).
 - **Role** (400, clamp(1.1rem, 1.8vw, 1.35rem), Sky): the typed hero role behind a 40px hairline and before a blinking caret. The HUD prompt is the same voice at 1.05rem, 0.04em.
-- **Title** (400, 1.3rem, 1.25, Moon): project card titles (1.12rem in the WIP grid, 1rem on mobile WIP); Ficha name 1.25rem; skill names 1.22rem.
-- **Lead** (300, 1.125rem): hero lead (46ch), section sub-line (1.08rem, 58ch), WIP note, Contacto line (1.15rem, 46ch).
+- **Title** (400, 1.3rem, 1.25, Moon): project card titles; Ficha name 1.25rem; skill names 1.22rem.
+- **Lead** (300, 1.125rem): hero lead (46ch), section sub-line (1.08rem, 58ch), Contacto line (1.15rem, 46ch).
 - **Body** (400, 1.0625rem, 1.65): running copy; about text 64ch, timeline detail 60ch. Card taglines and Ficha values sit at 0.98rem.
 - **Meta** (400, 0.84–0.92rem, Faint): card context line, genre lists, hints, footer, status line.
 - **Label** (500, 0.7–0.78rem, 0.1–0.14em, uppercase): field names inside components (Ficha stats, facts, about blocks, modal step hints, cover badges, the Ficha bar title) and the hero scroll cue (0.75rem, 0.22em). Labels name a field; they never sit above a section heading.
@@ -238,14 +237,14 @@ One container, `min(1200px, 100% - 40px)`, and one left axis. Sections pad clamp
 
 **Pinned intro (≥900px wide and ≥620px tall, motion allowed).** The section becomes 260vh with a sticky 100vh stage that the scroll scrubs. End frame is a player-select screen: the Ficha on the block's left edge at 22% from the top, as wide as the block (min(540px, 100% − 40px)), its head stacked over a 2×2 stats grid and its status on its own row; the mate staying in its bottom-right corner; and the "◆ Ver proyectos ◆" HUD prompt at the bottom on the block's left edge, 30px up. Below the threshold the intro is not pinned: the Ficha follows the hero in flow (max 1040px, 72px below) and the sea still tilts with scroll up to 80%.
 
-**Project grid.** Flex-wrap with `--cols` columns: 3 at 24px gap; the WIP grid 4 at 20px. Partial last rows stay left-aligned.
+**Project grid.** Flex-wrap with `--cols` columns: 3 at 24px gap. Projects "en desarrollo" share the grid (first in the data order, with a gold cover badge) and have their own "En desarrollo" filter chip; there is no separate WIP section. Partial last rows stay left-aligned.
 
 Breakpoints, as built:
 - **1100px**: in the pinned end frame the Ficha body stacks (head above stats).
-- **1000px**: both grids go to 2 columns.
+- **1000px**: the grid goes to 2 columns.
 - **899px / 900px**: the pin threshold. Below it the hero is one column, the mate is 84px in the bottom-right corner of the hero block, beside the actions and socials; the scroll cue hides; the Ficha narrows to 560px and stacks with a 2×2 stats grid; about and Contacto stack, with the Contacto mate (110px) above the heading.
 - **820px**: nav collapses behind a two-bar button into a dropdown panel; the nav diamond is dropped.
-- **720px**: main grid 1 column; WIP stays 2 columns at 12px, title-only; skills 1 column; tabs wrap without the hairline; modal is full-screen with a single-column body.
+- **720px**: main grid 1 column; skills 1 column; tabs wrap without the hairline; modal is full-screen with a single-column body.
 - **560px**: smaller hero name and indent; section head gap 16px; the Ficha status wraps to its own row.
 
 ## Elevation & Depth
@@ -296,7 +295,7 @@ Tags: 4px, Raised Panel, Hairline, Mist 0.86rem, for tool lists. Cover badges: 4
 ### Project Card (signature)
 A boxed card that behaves like a physical one.
 - **Shape:** 10px Panel with a Hairline border; 16:9 cover on top with a hairline beneath; body 18px × 22px × 22px: Moon title, faint context line, muted tagline, dot-separated genre list, Sky "Ver proyecto" link pushed to the bottom. The whole card is one button via a stretched pseudo-element on the title.
-- **Tilt and sink:** under a fine pointer, the card rotates up to 5° (7° in the WIP grid) toward the cursor and sinks 18px (`perspective(1000px) … translateZ(-18px)`), chasing its target on a spring (12% per frame), and springs back on leave. A 420px screen-blended glare follows the cursor; the border goes to Sky at 45%, the card-hover shadow appears, the cover zooms +0.05, the arrow slides 4px.
+- **Tilt and sink:** under a fine pointer, the card rotates up to 5° toward the cursor and sinks 18px (`perspective(1000px) … translateZ(-18px)`), chasing its target on a spring (12% per frame), and springs back on leave. A 420px screen-blended glare follows the cursor; the border goes to Sky at 45%, the card-hover shadow appears, the cover zooms +0.05, the arrow slides 4px.
 - **Reveal:** the card rises 48px and fades (0.9s ease-out, staggered per column) while the cover wipes up from the bottom (`clip-path: inset(100% 0 0)` → `inset(0)`, 1.1s in-out).
 - **Cover parallax:** where view timelines exist, the cover image is held at 1.12 and drifts −5% → 5% across its pass through the viewport.
 - **Focus:** a 2px Sky outline 4px outside the card.

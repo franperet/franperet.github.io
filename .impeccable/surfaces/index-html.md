@@ -9,7 +9,7 @@ related_targets: ["css/style.css","js/main.js"]
 
 Scope: the single-page portfolio. Mode: Experience (the games lead), with a Persuade duty: a studio recruiter must get name, role and contact in the first viewport.
 
-Audience and job: studio recruiters skimming for a junior; they open a project, watch it, and write. Constraints: keep every piece of content and the section order (hero + ficha, Proyectos + En desarrollo, Habilidades, Trayectoria, Sobre mí, Contacto). Dark only. Static HTML/CSS/JS, content from js/data.js.
+Audience and job: studio recruiters skimming for a junior; they open a project, watch it, and write. Constraints: keep every piece of content and the section order (hero + ficha, Proyectos with in-progress games in the same grid and an "En desarrollo" filter, Habilidades, Trayectoria, Sobre mí, Contacto). Dark only. Static HTML/CSS/JS, content from js/data.js.
 
 Revision 2 (user feedback): the itch.io materials stay, but the composition must not look like the itch page. Restore the mouse-following light and the 3D tilt/sink on info cards. The intro must be a real scroll-driven sequence and feel professional.
 

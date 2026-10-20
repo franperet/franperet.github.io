@@ -46,7 +46,9 @@
   const isExternal = url => /^https?:/.test(url);
   const byId = id => document.getElementById(id);
 
-  const state = { filter: 'Todos', collection: 'projects', current: -1 };
+  const state = { filter: 'Todos', current: -1 };
+  const WIP = 'En desarrollo';
+  const isInProgress = project => project.status === WIP;
   const isVideoFile = src => /\.(mp4|webm)$/i.test(src);
   const videoPoster = project => isVideoFile(project.video)
     ? project.videoPoster || project.cover
@@ -280,12 +282,14 @@
   }
 
   function matchesFilter(project) {
-    return state.filter === 'Todos' || project.tags.includes(state.filter);
+    if (state.filter === 'Todos') return true;
+    return state.filter === WIP ? isInProgress(project) : project.tags.includes(state.filter);
   }
 
   function renderFilters() {
     const counts = new Map();
-    data.projects.forEach(p => p.tags.forEach(t => counts.set(t, (counts.get(t) || 0) + 1)));
+    data.projects.forEach(p => [...p.tags, ...(isInProgress(p) ? [WIP] : [])]
+      .forEach(t => counts.set(t, (counts.get(t) || 0) + 1)));
     const tags = (data.filters || [...counts]
       .filter(([, n]) => n < data.projects.length)
       .sort((a, b) => b[1] - a[1])
@@ -324,33 +328,24 @@
     node.classList.add(className);
   }
 
-  function renderCards(containerId, collection) {
-    const wip = collection === 'inProgress';
-    byId(containerId).replaceChildren(...data[collection].map((project, index) => {
-      const card = h('article', { class: 'card reveal', 'data-index': index, style: `--i: ${index % (wip ? 4 : 3)}` },
+  function renderCards() {
+    byId('cards').replaceChildren(...data.projects.map((project, index) => {
+      const card = h('article', { class: 'card reveal', 'data-index': index, style: `--i: ${index % 3}` },
         h('span', { class: 'card__glare', 'aria-hidden': 'true' }),
         h('div', { class: 'cover' },
           cover(project, project.cover || project.images[0]),
-          wip ? h('span', { class: 'cover__badge' },
+          isInProgress(project) ? h('span', { class: 'cover__badge' },
             h('span', { class: 'status__dot status__dot--wip', 'aria-hidden': 'true' }), project.status) : null),
         h('div', { class: 'card__body' },
           h('h3', { class: 'card__title' },
-            h('button', { class: 'card__open', type: 'button', onclick: () => openModal(collection, index) }, project.title)),
+            h('button', { class: 'card__open', type: 'button', onclick: () => openModal(index) }, project.title)),
           project.context ? h('p', { class: 'meta' }, project.context) : null,
           h('p', { class: 'card__tagline' }, project.tagline),
           h('ul', { class: 'genre' }, project.tags.map(t => h('li', {}, t))),
           h('span', { class: 'card__more', 'aria-hidden': 'true' }, 'Ver proyecto', icon('arrow'))));
-      if (canTilt) addTilt(card, { max: wip ? 7 : 5, depth: 18 });
+      if (canTilt) addTilt(card, { max: 5, depth: 18 });
       return card;
     }));
-  }
-
-  function renderInProgress() {
-    if (!data.inProgress?.length) {
-      byId('wip-wrap').remove();
-      return;
-    }
-    renderCards('wip', 'inProgress');
   }
 
   function createTabs(rootId, items) {
@@ -483,14 +478,13 @@
   const modalContent = byId('modal-content');
 
   function visibleIndexes() {
-    const list = data[state.collection];
-    return list.map((_, i) => i).filter(i => state.collection !== 'projects' || matchesFilter(list[i]));
+    return data.projects.map((_, i) => i).filter(i => matchesFilter(data.projects[i]));
   }
 
   function step(direction) {
     const list = visibleIndexes();
     const pos = list.indexOf(state.current);
-    openModal(state.collection, list[(pos + direction + list.length) % list.length]);
+    openModal(list[(pos + direction + list.length) % list.length]);
   }
 
   function videoFacade(project) {
@@ -560,13 +554,12 @@
 
     const facts = [['Estado', project.status], ['Equipo', project.team], ['Mi rol', project.role]]
       .filter(([, value]) => value);
-    const highlightsTitle = state.collection === 'inProgress' ? 'Lo que ya funciona' : 'Lo más destacado';
+    const highlightsTitle = isInProgress(project) ? 'Lo que ya funciona' : 'Lo más destacado';
 
-    const collection = data[state.collection];
     const list = visibleIndexes();
     const pos = list.indexOf(state.current);
-    const prev = collection[list[(pos - 1 + list.length) % list.length]];
-    const next = collection[list[(pos + 1) % list.length]];
+    const prev = data.projects[list[(pos - 1 + list.length) % list.length]];
+    const next = data.projects[list[(pos + 1) % list.length]];
 
     modalContent.replaceChildren(
       gallery(project),
@@ -591,10 +584,9 @@
     );
   }
 
-  function openModal(collection, index) {
-    state.collection = collection;
+  function openModal(index) {
     state.current = index;
-    fillModal(data[collection][index]);
+    fillModal(data.projects[index]);
     if (!modal.open) modal.showModal();
     else replay(modalContent, 'pop');
     modal.scrollTop = 0;
@@ -1022,8 +1014,7 @@
   renderProfile();
   renderPlayerCard();
   renderFilters();
-  renderCards('cards', 'projects');
-  renderInProgress();
+  renderCards();
   renderSkills();
   renderPath();
   renderAbout();
