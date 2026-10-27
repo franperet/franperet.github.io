@@ -29,12 +29,12 @@ const PORTFOLIO = {
   projects: [
     {
       title: "Wizards of Ages",
-      tagline: "Acción cooperativa local para 2 jugadores: magos que pelean con hechizos en un castillo encantado.",
+      tagline: "Acción isométrica cooperativa local para 1 a 4 jugadores: cada mago arma sus propios hechizos.",
       context: "Seminario 2026",
       status: "En desarrollo",
       team: "",
       role: "Programación",
-      description: "Dos magos recorren un castillo y sus jardines peleando contra enemigos hasta llegar a un jefe final. Cada jugador elige entre cuatro personajes y se juega con teclado y mouse o con joystick. La imagen tiene un estilo retro gracias a una cámara que renderiza a baja resolución.",
+      description: "Wizards of Ages es un juego de acción isométrico cooperativo local para 1 a 4 jugadores. Cada jugador elige un mago y arma sus propios hechizos combinando Runas (la forma del proyectil) y Gemas (el efecto mágico).\n\nTras la ruptura de una antigua profecía, el equilibrio entre el bien y el mal se perdió y el universo empezó a destruirse. Los magos elegidos deben recuperar un artefacto legendario capaz de controlar la realidad, enfrentando a quienes se apoderaron de él.",
       highlights: [
         "Tienda 3D: la cámara viaja hasta las repisas y cada jugador compra con su propio cursor virtual",
         "Cinemática inicial con subtítulos, narrador y opción de saltarla",
@@ -43,15 +43,12 @@ const PORTFOLIO = {
       ],
       tags: ["Unity", "C#", "3D", "Co-op local"],
       color: "#ffb020",
-      cover: "assets/img/wizards-of-ages/01.jpg",
+      cover: "assets/video/wizards-of-ages.jpg",
       images: [
         "assets/img/wizards-of-ages/01.jpg",
         "assets/img/wizards-of-ages/02.jpg",
         "assets/img/wizards-of-ages/03.jpg",
-        "assets/img/wizards-of-ages/04.jpg",
-        "assets/img/wizards-of-ages/05.jpg",
-        "assets/img/wizards-of-ages/06.jpg",
-        "assets/img/wizards-of-ages/07.jpg"
+        "assets/img/wizards-of-ages/04.jpg"
       ],
       video: "assets/video/wizards-of-ages.mp4",
       videoPoster: "assets/video/wizards-of-ages.jpg",

@@ -568,7 +568,7 @@
           h('h3', { class: 'modal__title', id: 'modal-title' }, project.title),
           project.context ? h('p', { class: 'modal__context' }, project.context) : null,
           h('p', { class: 'modal__tagline' }, project.tagline),
-          h('p', { class: 'modal__desc' }, project.description),
+          project.description.split('\n\n').map(text => h('p', { class: 'modal__desc' }, text)),
           project.highlights?.length ? h('h4', {}, highlightsTitle) : null,
           project.highlights?.length ? h('ul', { class: 'checklist' }, project.highlights.map(x => h('li', {}, x))) : null),
         h('aside', { class: 'modal__side' },
