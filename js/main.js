@@ -219,10 +219,10 @@
       ));
   }
 
-  function photoOrInitials(className) {
+  function photoOrInitials(className, photo = data.profile.photo) {
     const p = data.profile;
     return h('div', { class: className },
-      p.photo ? h('img', { src: p.photo, alt: `Foto de ${p.name}` }) : [staticWaves(), h('span', {}, p.initials)]);
+      photo ? h('img', { src: photo, alt: `Foto de ${p.name}` }) : [staticWaves(), h('span', {}, p.initials)]);
   }
 
   function renderProfile() {
@@ -449,7 +449,7 @@
     const blocks = [['Ahora aprendiendo', a.learning], ['Idiomas', a.languages], ['Fuera del código', a.hobbies]]
       .filter(([, list]) => list?.length);
     byId('about').replaceChildren(
-      h('div', { class: 'reveal' }, photoOrInitials('about__photo')),
+      h('div', { class: 'reveal' }, photoOrInitials('about__photo', a.photo)),
       h('div', { class: 'about__text' },
         a.paragraphs.map((text, i) => h('p', { class: 'reveal', style: `--i: ${i}` }, text)),
         blocks.length ? h('div', { class: 'about__blocks' }, blocks.map(([title, list], i) =>

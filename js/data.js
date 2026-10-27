@@ -388,6 +388,7 @@ const PORTFOLIO = {
   experience: [],
 
   about: {
+    photo: "assets/img/francisco.jpg",
     paragraphs: [
       "Me gusta crear juegos de punta a punta: pensar una mecánica, programarla y ajustarla hasta que se sienta bien en las manos de quien juega.",
       "Por eso me muevo entre la programación y el game design. Trabajé en Unity y en Unreal, en 2D y en 3D, y uso cada proyecto para sumar algo nuevo: multijugador en red, narrativa ramificada, level design o juegos programados sin motor.",
